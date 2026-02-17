@@ -2,21 +2,21 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>✨赫菈养成·软萌星球✨</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
-  <!-- 萌Q字体组合 -->
+  <title>✨赫菈养成·幸运拉盘✨</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- 超萌字体组合 + Emoji 支持 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Gaegu:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Patrick+Hand&family=Gaegu:wght@300;400;700&family=M+PLUS+Rounded+1c:wght@400;700;800&family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/fonts/zkkl2016.css">
   <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
-    /* ================= 全局变量 & 超软萌动画 ================= */
+    /* ================= 全局萌化变量 & 动态特效 ================= */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "站酷快乐体2016", "M PLUS Rounded 1c", "Fredoka One", "Patrick Hand", "Gaegu", "幼圆", "Comic Sans MS", cursive;
+      font-family: "站酷快乐体2016", "M PLUS Rounded 1c", "Fredoka One", "Patrick Hand", "Gaegu", "Comfortaa", "幼圆", "Comic Sans MS", "Apple Color Emoji", "Segoe UI Emoji", cursive;
       letter-spacing: 0.5px;
     }
     html, body {
@@ -30,8 +30,8 @@
       --second-color: #a975ff;
       --bg-light: linear-gradient(165deg, #ffe9f4 0%, #f0e6ff 100%);
       --bg-night: linear-gradient(165deg, #2d1b2c 0%, #1a1435 100%);
-      --card-bg: rgba(255, 250, 250, 0.95);
-      --card-bg-night: rgba(45, 30, 45, 0.95);
+      --card-bg: rgba(255, 250, 250, 0.96);
+      --card-bg-night: rgba(45, 30, 45, 0.96);
       --text-main: #442233;
       --text-secondary: #775566;
       --text-night: #ffe6f0;
@@ -51,182 +51,245 @@
     body {
       background: var(--bg-light);
       background-size: cover;
-      background-position: center;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 8px;
       transition: var(--transition);
+      position: relative;
     }
-    body.night {
-      background: #180e20 !important;
-      color: #f0c0e0;
-    }
-    body.night .game-box {
-      background: rgba(35, 20, 35, 0.97);
-      border-color: #8a5a88;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.7), inset 0 0 0 3px #8a5a88;
-    }
-    body.night .top-bar {
-      background: rgba(70, 35, 65, 0.9);
-    }
-    body.night .main-btn {
-      background: #5a2a55;
-      border-color: #b27aae;
-      color: #ffd0f5;
-      box-shadow: 0 6px 0 #7a3a75;
-    }
-    body.night .mini-btn {
-      background: #4a3248;
-      border-color: #9a6a98;
-      color: #ffc0e8;
-      box-shadow: 0 5px 0 #6a3a65;
-    }
-    body.night .attr-item {
-      background: #4a2a45;
-      border-color: #aa7aa8;
-      box-shadow: 0 6px 0 #7a3a70;
-    }
-    body.night .attr-num {
-      color: #ffb0e0;
-    }
-    body.night .fixed-chat,
-    body.night .play-time,
-    body.night .now-playing {
-      color: #ffc0e8;
-      background: rgba(90, 40, 75, 0.8);
-    }
-    body.night .coin {
-      background: #6a2e55;
-      color: #ffe680;
-    }
-    body.night .modal-box {
-      background: #351d32;
-      border-color: #aa7aa8;
-    }
-    body.night .modal-head {
-      background: #7a3a70;
-    }
-    body.night .calendar-day {
-      background: #5a3a55;
-      color: #ffc0f0;
-    }
-    body.night .shop-item,
-    body.night .item-row {
-      background: #4f2a4a;
-      border-color: #aa7aa8;
-      color: #ffe0f5;
-    }
-    body.night .empty-msg {
-      color: #b890b0;
-    }
-
-    body.modal-open {
+    /* 面板特效容器 */
+    .game-box {
+      position: relative;
+      z-index: 1;
       overflow: hidden;
-      position: fixed;
+    }
+    .game-box::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.3s;
+      opacity: 0;
+      border-radius: inherit;
     }
+    /* 云朵特效 */
+    body.effect-cloud .game-box::after {
+      opacity: 0.7;
+      background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5) 8px, transparent 8px),
+                  radial-gradient(circle at 40% 60%, rgba(255,255,255,0.5) 12px, transparent 12px),
+                  radial-gradient(circle at 60% 20%, rgba(255,255,255,0.5) 10px, transparent 10px),
+                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.5) 14px, transparent 14px);
+      background-size: 200px 200px;
+      animation: cloudMove 12s infinite linear;
+    }
+    @keyframes cloudMove { 0% { background-position: 0 0; } 100% { background-position: 200px 200px; } }
+    /* 星星特效 */
+    body.effect-stars .game-box::after {
+      opacity: 0.9;
+      background: radial-gradient(2px 2px at 10% 10%, white 2px, transparent 2px),
+                  radial-gradient(3px 3px at 30% 40%, white 3px, transparent 3px),
+                  radial-gradient(2px 2px at 50% 70%, white 2px, transparent 2px),
+                  radial-gradient(4px 4px at 80% 20%, white 4px, transparent 4px),
+                  radial-gradient(2px 2px at 90% 60%, white 2px, transparent 2px);
+      background-size: 200px 200px;
+      animation: twinkle 2s infinite alternate;
+    }
+    @keyframes twinkle { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+    /* 斜线特效 */
+    body.effect-slash .game-box::after {
+      opacity: 0.6;
+      background: repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 2px, transparent 2px, transparent 10px);
+      background-size: 30px 30px;
+      animation: slashMove 3s linear infinite;
+    }
+    @keyframes slashMove { 0% { background-position: 0 0; } 100% { background-position: 30px 30px; } }
+    /* 流沙特效 */
+    body.effect-quicksand .game-box::after {
+      opacity: 0.7;
+      background: radial-gradient(4px 4px at 10% 10%, rgba(255,215,0,0.6) 2px, transparent 2px),
+                  radial-gradient(3px 3px at 30% 30%, rgba(255,140,0,0.6) 2px, transparent 2px),
+                  radial-gradient(5px 5px at 50% 50%, rgba(255,215,0,0.6) 3px, transparent 3px),
+                  radial-gradient(3px 3px at 70% 70%, rgba(255,140,0,0.6) 2px, transparent 2px),
+                  radial-gradient(4px 4px at 90% 90%, rgba(255,215,0,0.6) 2px, transparent 2px);
+      background-size: 150px 150px;
+      animation: quicksandFall 2s linear infinite;
+    }
+    @keyframes quicksandFall { 0% { background-position: 0 -150px; } 100% { background-position: 0 150px; } }
+    /* 流星雨特效 */
+    body.effect-meteor .game-box::after {
+      opacity: 0.8;
+      background: 
+        linear-gradient(45deg, transparent 90%, rgba(255,255,255,0.9) 90% 95%, transparent 95%),
+        linear-gradient(135deg, transparent 92%, rgba(255,255,180,0.8) 92% 96%, transparent 96%),
+        radial-gradient(3px 3px at 15% 20%, white 3px, transparent 3px),
+        radial-gradient(4px 4px at 35% 50%, rgba(255,255,200,0.9) 4px, transparent 4px),
+        radial-gradient(2px 2px at 55% 80%, white 2px, transparent 2px),
+        radial-gradient(5px 5px at 75% 10%, rgba(255,255,200,0.9) 5px, transparent 5px),
+        radial-gradient(3px 3px at 90% 60%, white 3px, transparent 3px);
+      background-size: 300% 300%, 250% 250%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%;
+      background-position: 0 0;
+      animation: meteorShower 2.5s linear infinite;
+    }
+    @keyframes meteorShower { 0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; } 100% { background-position: 300% 300%, 250% 250%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%; } }
 
-    /* 全屏特效层 */
+    /* 夜间模式适配 */
+    body.night.effect-cloud .game-box::after { background: radial-gradient(circle at 20% 30%, rgba(200,200,255,0.4) 8px, transparent 8px), radial-gradient(circle at 40% 60%, rgba(200,200,255,0.4) 12px, transparent 12px), radial-gradient(circle at 60% 20%, rgba(200,200,255,0.4) 10px, transparent 10px), radial-gradient(circle at 80% 70%, rgba(200,200,255,0.4) 14px, transparent 14px); }
+    body.night.effect-stars .game-box::after { background: radial-gradient(2px 2px at 10% 10%, #aaccff 2px, transparent 2px), radial-gradient(3px 3px at 30% 40%, #aaccff 3px, transparent 3px), radial-gradient(2px 2px at 50% 70%, #aaccff 2px, transparent 2px), radial-gradient(4px 4px at 80% 20%, #aaccff 4px, transparent 4px), radial-gradient(2px 2px at 90% 60%, #aaccff 2px, transparent 2px); }
+    body.night.effect-slash .game-box::after { background: repeating-linear-gradient(45deg, rgba(180,180,255,0.3) 0px, rgba(180,180,255,0.3) 2px, transparent 2px, transparent 10px); }
+    body.night.effect-quicksand .game-box::after { background: radial-gradient(4px 4px at 10% 10%, rgba(220,180,100,0.5) 2px, transparent 2px), radial-gradient(3px 3px at 30% 30%, rgba(160,120,60,0.5) 2px, transparent 2px), radial-gradient(5px 5px at 50% 50%, rgba(220,180,100,0.5) 3px, transparent 3px), radial-gradient(3px 3px at 70% 70%, rgba(160,120,60,0.5) 2px, transparent 2px), radial-gradient(4px 4px at 90% 90%, rgba(220,180,100,0.5) 2px, transparent 2px); }
+    body.night.effect-meteor .game-box::after { background: linear-gradient(45deg, transparent 90%, rgba(200,200,255,0.7) 90% 95%, transparent 95%), linear-gradient(135deg, transparent 92%, rgba(180,180,255,0.6) 92% 96%, transparent 96%), radial-gradient(3px 3px at 15% 20%, #aaccff 3px, transparent 3px), radial-gradient(4px 4px at 35% 50%, #bbddff 4px, transparent 4px), radial-gradient(2px 2px at 55% 80%, #aaccff 2px, transparent 2px), radial-gradient(5px 5px at 75% 10%, #bbddff 5px, transparent 5px), radial-gradient(3px 3px at 90% 60%, #aaccff 3px, transparent 3px); }
+
+    body.night { background: #180e20 !important; color: #f0c0e0; }
+    body.night .game-box { background: rgba(35, 20, 35, 0.97); border-color: #8a5a88; box-shadow: 0 15px 35px rgba(0,0,0,0.7), inset 0 0 0 3px #8a5a88; }
+    body.night .top-bar { background: rgba(70, 35, 65, 0.9); }
+    body.night .main-btn { background: #5a2a55; border-color: #b27aae; color: #ffd0f5; box-shadow: 0 6px 0 #7a3a75; }
+    body.night .mini-btn { background: #4a3248; border-color: #9a6a98; color: #ffc0e8; box-shadow: 0 5px 0 #6a3a65; }
+    body.night .attr-item { background: #4a2a45; border-color: #aa7aa8; box-shadow: 0 6px 0 #7a3a70; }
+    body.night .attr-num { color: #ffb0e0; }
+    body.night .fixed-chat, body.night .play-time, body.night .now-playing { color: #ffc0e8; background: rgba(90, 40, 75, 0.8); }
+    body.night .coin { background: #6a2e55; color: #ffe680; }
+    body.night .modal-box { background: #351d32; border-color: #aa7aa8; }
+    body.night .modal-head { background: #7a3a70; }
+    body.night .calendar-day { background: #5a3a55; color: #ffc0f0; }
+    body.night .shop-item, body.night .item-row { background: #4f2a4a; border-color: #aa7aa8; color: #ffe0f5; }
+    body.night .empty-msg { color: #b890b0; }
+    body.night .piggy-bank { background: #5a2e4a; border-color: #b27a9e; }
+    body.night .saving-item { background: #4f2a4a; border-color: #aa7aa8; }
+
+    /* 全屏特效层 - 优化流畅度，增加粒子感 */
     .fullscreen-effect {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      font-size: 60px;
+      color: rgba(255,255,255,0.95);
+      text-shadow: 0 0 30px gold, 0 0 60px orange, 0 0 90px hotpink;
+      animation: effectFlash 1.2s ease-out forwards;
+      backdrop-filter: blur(8px);
+      line-height: 1;
+      white-space: nowrap;
+      will-change: transform, opacity;
+    }
+    .fullscreen-effect.epic {
+      background: radial-gradient(circle, rgba(200,0,255,0.6) 0%, rgba(255,0,150,0.4) 40%, transparent 80%);
+    }
+    .fullscreen-effect.legend {
+      background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,0,200,0.6) 40%, rgba(0,200,255,0.4) 80%, transparent 100%);
+      animation: effectSpin 1.2s ease-out;
+    }
+    @keyframes effectFlash {
+      0% { opacity: 0; transform: scale(0.3) rotate(-10deg); filter: blur(10px); }
+      50% { opacity: 1; transform: scale(1.2) rotate(3deg); filter: blur(0); }
+      100% { opacity: 0; transform: scale(1.8) rotate(0deg); filter: blur(10px); }
+    }
+    @keyframes effectSpin {
+      0% { opacity: 0; transform: rotate(0deg) scale(0.3); filter: blur(10px); }
+      50% { opacity: 1; transform: rotate(180deg) scale(1.2); filter: blur(0); }
+      100% { opacity: 0; transform: rotate(360deg) scale(1.8); filter: blur(10px); }
+    }
+    /* 升级专用特效 - 增强版 */
+    .level-up-banner {
+      position: fixed;
+      bottom: -200px;
+      left: 5%;
+      right: 5%;
+      width: 90%;
+      transform: translateX(0);
+      background: linear-gradient(145deg, #ffd966, #ffb347);
+      color: white;
+      font-size: clamp(24px, 8vw, 48px);
+      font-weight: bold;
+      padding: 15px 20px;
+      border-radius: 60px 60px 20px 20px;
+      box-shadow: 0 0 40px gold;
+      border: 5px solid white;
+      z-index: 10001;
+      transition: bottom 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-shadow: 0 5px 0 #b34180;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+    .level-up-banner.show {
+      bottom: 30px;
+    }
+    .confetti-rain {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 9999;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      font-size: 90px;
-      color: rgba(255,255,255,0.9);
-      text-shadow: 0 0 30px gold, 0 0 60px orange;
-      animation: effectFlash 1.2s ease-out forwards;
+      z-index: 10000;
+      background: 
+        repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(255,215,0,0.4) 30px, rgba(255,215,0,0.4) 31px, transparent 31px, transparent 60px),
+        repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.3) 20px, rgba(255,255,255,0.3) 21px, transparent 21px, transparent 40px);
+      background-size: 100% 60px, 200% 80px;
+      animation: enhancedRain 1.8s linear forwards;
+      opacity: 0;
     }
-    .fullscreen-effect.epic {
-      background: radial-gradient(circle, rgba(200,0,255,0.4) 0%, transparent 75%);
-      backdrop-filter: blur(4px);
-    }
-    .fullscreen-effect.legend {
-      background: radial-gradient(circle, rgba(255,215,0,0.6) 0%, rgba(255,0,200,0.4) 50%, transparent 85%);
-      backdrop-filter: blur(6px);
-      animation: effectSpin 1.2s ease-out;
-    }
-    @keyframes effectFlash {
-      0% { opacity: 0; transform: scale(0.3) rotate(-10deg); }
-      50% { opacity: 1; transform: scale(1.2) rotate(3deg); }
-      100% { opacity: 0; transform: scale(1.8) rotate(0deg); }
-    }
-    @keyframes effectSpin {
-      0% { opacity: 0; transform: rotate(0deg) scale(0.3); }
-      50% { opacity: 1; transform: rotate(180deg) scale(1.2); }
-      100% { opacity: 0; transform: rotate(360deg) scale(1.8); }
+    @keyframes enhancedRain {
+      0% { opacity: 0.9; background-position: 0 0, 0 0; }
+      100% { opacity: 0; background-position: 0 200px, 200px 200px; }
     }
 
     /* 动画区 */
-    @keyframes glowPulse {
-      0% { box-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9; }
-      50% { box-shadow: 0 0 22px #ff7bb5, 0 0 40px #ff7bb5; }
-      100% { box-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9; }
-    }
+    @keyframes glowPulse { 0% { box-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9; } 50% { box-shadow: 0 0 22px #ff7bb5, 0 0 40px #ff7bb5; } 100% { box-shadow: 0 0 10px #ffb3d9, 0 0 20px #ffb3d9; } }
     @keyframes floatUp {
       0% { bottom: 20px; opacity: 1; transform: translateX(-50%) scale(1); }
       100% { bottom: 140%; opacity: 0; transform: translateX(-50%) scale(0.6); }
     }
-    @keyframes coinSpin {
-      0% { transform: rotateY(0); }
-      50% { transform: rotateY(180deg); }
-      100% { transform: rotateY(0); }
-    }
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      20% { transform: translateX(-4px) rotate(-1deg); }
-      40% { transform: translateX(4px) rotate(1deg); }
-      60% { transform: translateX(-2px) rotate(-0.5deg); }
-      80% { transform: translateX(2px) rotate(0.5deg); }
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-    @keyframes wobble {
-      0%,100% { transform: rotate(0deg); }
-      25% { transform: rotate(1.5deg); }
-      75% { transform: rotate(-1.5deg); }
-    }
-
-    /* 物品飞入动画 */
+    @keyframes coinSpin { 0% { transform: rotateY(0); } 50% { transform: rotateY(180deg); } 100% { transform: rotateY(0); } }
+    @keyframes wobble { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(1.5deg); } 75% { transform: rotate(-1.5deg); } }
+    /* 强化版飞入特效 - 使用transform3d提升性能 */
     @keyframes flyToAvatar {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--fly-x), var(--fly-y)) scale(0.2);
-        opacity: 0;
-      }
+      0% { transform: translate3d(0, 0, 0) scale(4) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 30px gold) brightness(1.5); }
+      30% { transform: translate3d(calc(var(--fly-x) * 0.3), calc(var(--fly-y) * 0.3), 0) scale(3) rotate(180deg); opacity: 1; filter: drop-shadow(0 0 40px orange) brightness(2); }
+      70% { transform: translate3d(calc(var(--fly-x) * 0.7), calc(var(--fly-y) * 0.7), 0) scale(2) rotate(300deg); opacity: 0.9; filter: drop-shadow(0 0 30px yellow) brightness(1.8); }
+      100% { transform: translate3d(var(--fly-x), var(--fly-y), 0) scale(0.3) rotate(360deg); opacity: 0; filter: drop-shadow(0 0 10px gold); }
     }
     .fly-item {
-      position: fixed;
-      z-index: 10000;
-      font-size: 30px;
-      filter: drop-shadow(0 0 10px gold);
+      position: fixed; z-index: 10000; font-size: 60px; filter: drop-shadow(0 0 15px gold);
+      pointer-events: none; animation: flyToAvatar 0.8s ease-out forwards;
+      text-shadow: 0 0 20px white;
+      will-change: transform, opacity;
+    }
+    /* 砸中特效爆炸 */
+    .impact-boom {
+      position: fixed; z-index: 9998; width: 150px; height: 150px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,200,0,0.8) 30%, transparent 70%);
+      transform: translate(-50%, -50%) scale(1);
+      animation: boomAnim 0.4s ease-out forwards;
       pointer-events: none;
-      animation: flyToAvatar 0.6s ease-out forwards;
+    }
+    @keyframes boomAnim {
+      0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; filter: blur(2px); }
+      100% { transform: translate(-50%, -50%) scale(3); opacity: 0; filter: blur(10px); }
     }
 
-    /* ================= 主面板 ================= */
+    /* 主面板 */
     .game-box {
       width: 100%;
       max-width: 520px;
       background: var(--card-bg);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
       border-radius: var(--radius-xl);
       padding: 12px 16px;
-      box-shadow: var(--shadow-soft), inset 0 0 0 3px rgba(255,255,255,0.8);
+      box-shadow: var(--shadow-soft), inset 0 0 0 3px rgba(255,255,255,0.9);
       border: 3px solid white;
       transition: var(--transition);
       height: 98vh;
@@ -239,7 +302,7 @@
     .game-box::-webkit-scrollbar { width: 6px; }
     .game-box::-webkit-scrollbar-thumb { background: var(--main-light); border-radius: 30px; border: 2px solid white; }
 
-    /* 顶部栏 */
+    /* 顶部栏 - 猪猪存钱罐 */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -251,71 +314,49 @@
       border-radius: 0 0 var(--radius-lg) var(--radius-lg);
       box-shadow: 0 5px 15px rgba(255,150,200,0.25);
     }
-    .play-time {
-      background: linear-gradient(145deg, #ffb6d9, #ff8ec7);
-      color: white;
-      padding: 4px 12px;
+    .play-time { background: linear-gradient(145deg, #ffb6d9, #ff8ec7); color: white; padding: 4px 12px; border-radius: var(--radius-full); font-size: 12px; font-weight: bold; box-shadow: 0 3px 0 #d46a9e; }
+    .coin { background: #fff2dd; color: #b45f2b; padding: 4px 12px; border-radius: var(--radius-full); font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 4px; box-shadow: inset 0 -2px 0 #ffc285, 0 3px 6px rgba(0,0,0,0.05); }
+    .coin.jump { animation: coinSpin 0.5s ease; }
+    .piggy-bank {
+      background: #ffe6f0;
       border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: bold;
-      box-shadow: 0 3px 0 #d46a9e;
-    }
-    .coin {
-      background: #fff2dd;
-      color: #b45f2b;
       padding: 4px 12px;
-      border-radius: var(--radius-full);
       font-size: 14px;
       font-weight: bold;
       display: flex;
       align-items: center;
       gap: 4px;
-      box-shadow: inset 0 -2px 0 #ffc285, 0 3px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 3px 0 #d46a9e;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid white;
     }
-    .coin.jump { animation: coinSpin 0.5s ease; }
+    .piggy-bank:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #d46a9e; }
+    .piggy-bank:active { transform: translateY(2px); box-shadow: 0 1px 0 #d46a9e; }
 
     /* 商店仓库行 */
-    .shop-row {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-    .shop-row .mini-btn {
-      padding: 4px 12px;
-      font-size: 13px;
-    }
+    .shop-row { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 6px; }
+    .shop-row .mini-btn { padding: 4px 12px; font-size: 13px; }
 
     /* 角色名 */
-    .character-name {
-      text-align: center;
-      font-size: 24px;
-      font-weight: 800;
-      color: #b34180;
-      text-shadow: 0 3px 6px #ffb3d9, 0 0 10px white;
-      margin-bottom: 4px;
-      letter-spacing: 1px;
-      transform: rotate(-0.3deg);
-      line-height: 1.2;
-      animation: wobble 4s infinite ease-in-out;
-    }
-    .character-name small {
-      font-size: 16px;
-      color: #a64d79;
-      text-shadow: 0 2px 4px #ff99cc;
-    }
-    body.night .character-name {
-      color: #ffb0d0;
-      text-shadow: 0 3px 8px #8a4a78;
-    }
+    .character-name { text-align: center; font-size: 28px; font-weight: 800; color: #b34180; text-shadow: 0 3px 6px #ffb3d9, 0 0 10px white; margin-bottom: 2px; letter-spacing: 1px; transform: rotate(-0.3deg); line-height: 1.2; animation: wobble 4s infinite ease-in-out; }
+    .character-name small { font-size: 18px; color: #a64d79; text-shadow: 0 2px 4px #ff99cc; }
 
-    /* 头像区域 - 作为波纹容器 */
+    /* 头像区 (无边框) */
     .avatar-wrap {
       display: flex;
       justify-content: center;
-      margin: 4px 0 4px;
+      margin: 0px 0 2px;
       position: relative;
-      min-height: 140px; /* 为波纹留出空间 */
+      min-height: 150px;
+    }
+    .avatar-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .avatar {
       width: 130px;
@@ -326,86 +367,19 @@
       position: relative;
       box-shadow: var(--shadow-glow);
       transition: 0.2s;
-      z-index: 3; /* 高于波纹 */
+      z-index: 3;
       animation: bounce 4s infinite ease-in-out;
     }
-    .avatar:hover {
-      transform: scale(1.03);
-      animation: none;
-    }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .avatar:hover { transform: scale(1.03); animation: none; }
     .avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .avatar-ripple {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 2;
-      background: radial-gradient(circle, rgba(255,200,235,0.9) 0%, rgba(255,140,200,0) 75%);
-      filter: blur(8px);
-      opacity: 0.6;
-      transition: opacity 0.2s;
-      animation: glowPulse 3s infinite ease-in-out;
-    }
-    /* 表情包紧贴头像右上方 */
-    .mood-emoji {
-      position: absolute;
-      top: 0;
-      right: 0;
-      font-size: 40px;
-      filter: drop-shadow(0 4px 6px #ff99cc);
-      z-index: 4;
-      pointer-events: none;
-      transition: 0.2s;
-    }
-    /* 水纹条 - 放在头像后面 */
-    .wave-bar {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 80px; /* 高度增大，以便部分被头像遮挡 */
-      z-index: 1;
-      pointer-events: none;
-    }
-    .wave-bar canvas {
-      width: 100%;
-      height: 100%;
-      border-radius: 50px;
-      background: transparent; /* 背景透明，让波纹直接显示 */
-    }
+    .avatar-ripple { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); width: 130px; height: 130px; border-radius: 50%; pointer-events: none; z-index: 2; background: radial-gradient(circle, rgba(255,200,235,0.9) 0%, rgba(255,140,200,0) 75%); filter: blur(8px); opacity: 0.6; transition: opacity 0.2s; animation: glowPulse 3s infinite ease-in-out; }
+    .mood-emoji { position: absolute; top: -5px; right: -5px; font-size: 42px; filter: drop-shadow(0 4px 6px #ff99cc); z-index: 4; pointer-events: none; transition: 0.2s; }
+    .wave-bar { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 80px; z-index: 1; pointer-events: none; }
+    .wave-bar canvas { width: 100%; height: 100%; border-radius: 50px; background: transparent; }
 
-    /* 固定对话 */
-    .fixed-chat {
-      text-align: center;
-      min-height: 26px;
-      font-size: 14px;
-      color: var(--main-dark);
-      font-weight: bold;
-      margin: 2px auto 6px;
-      text-shadow: 0 2px 4px white;
-      background: rgba(255,255,255,0.4);
-      border-radius: 50px;
-      padding: 4px 14px;
-      display: inline-block;
-      width: fit-content;
-      backdrop-filter: blur(4px);
-      z-index: 5;
-      position: relative;
-    }
-    .float-chat-container {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 10;
-    }
+    .fixed-chat { text-align: center; min-height: 26px; font-size: 14px; color: var(--main-dark); font-weight: bold; margin: 2px auto 6px; text-shadow: 0 2px 4px white; background: rgba(255,255,255,0.5); border-radius: 50px; padding: 4px 14px; display: inline-block; width: fit-content; backdrop-filter: blur(4px); z-index: 5; position: relative; }
+    .float-chat-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
     .float-chat {
       position: absolute;
       left: 50%;
@@ -423,401 +397,248 @@
       font-weight: bold;
     }
 
-    /* 属性面板 */
-    .attr-row {
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
-      gap: 4px;
-      margin: 8px 0;
-    }
-    .attr-item {
-      background: rgba(255,220,240,0.65);
-      border-radius: var(--radius-md);
-      padding: 6px 2px;
-      text-align: center;
-      border: 2px solid white;
-      box-shadow: 0 4px 0 var(--main-light);
-      transform: translateY(-2px);
-      transition: var(--transition);
-      backdrop-filter: blur(4px);
-      position: relative;
-      overflow: hidden;
-    }
-    .attr-item::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-      transition: left 0.5s;
-    }
-    .attr-item:hover::after {
-      left: 100%;
-    }
-    .attr-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 0 var(--main-light);
-    }
-    .attr-item:active {
-      transform: translateY(1px);
-      box-shadow: 0 2px 0 var(--main-light);
-    }
+    /* 属性面板 - 更圆润 */
+    .attr-row { display: grid; grid-template-columns: repeat(5,1fr); gap: 4px; margin: 8px 0; }
+    .attr-item { background: rgba(255,220,240,0.7); border-radius: var(--radius-md); padding: 6px 2px; text-align: center; border: 2px solid white; box-shadow: 0 4px 0 var(--main-light); transform: translateY(-2px); transition: var(--transition); backdrop-filter: blur(4px); position: relative; overflow: hidden; }
+    .attr-item::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); transition: left 0.5s; }
+    .attr-item:hover::after { left: 100%; }
+    .attr-item:hover { transform: translateY(-3px); box-shadow: 0 6px 0 var(--main-light); }
+    .attr-item:active { transform: translateY(1px); box-shadow: 0 2px 0 var(--main-light); }
     .attr-icon { font-size: 18px; color: var(--main-color); margin-bottom: 2px; }
-    .attr-num {
-      font-size: 18px;
-      font-weight: 800;
-      color: #b34180;
-      line-height: 1.1;
-    }
-    .attr-num.red { color: #ff3b6f; animation: shake 0.3s; }
-    .attr-progress-wrap {
-      height: 5px;
-      background: #ffe2f0;
-      border-radius: 20px;
-      margin: 4px 4px 2px;
-      overflow: hidden;
-      border: 1px solid white;
-    }
-    .attr-progress {
-      height: 100%;
-      background: linear-gradient(90deg, var(--main-color), var(--second-color));
-      border-radius: 20px;
-      transition: width 0.3s ease;
-    }
+    .attr-num { font-size: 18px; font-weight: 800; color: #b34180; line-height: 1.1; }
+    .attr-progress-wrap { height: 6px; background: #ffe2f0; border-radius: 20px; margin: 4px 4px 2px; overflow: hidden; border: 1px solid white; }
+    .attr-progress { height: 100%; background: linear-gradient(90deg, var(--main-color), var(--second-color)); border-radius: 20px; transition: width 0.3s ease; }
 
     /* 经验条 + 等级 */
-    .exp-section {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin: 6px 0 10px;
-      background: rgba(255,255,255,0.4);
-      border-radius: 50px;
-      padding: 4px 10px;
-      backdrop-filter: blur(4px);
-    }
-    .exp-label {
-      font-size: 16px;
-      font-weight: 800;
-      color: #a64d79;
-      white-space: nowrap;
-      text-shadow: 0 2px 4px white;
-    }
-    .exp-bar-wrap {
-      flex: 1;
-      height: 16px;
-      background: #ffe2f0;
-      border-radius: 40px;
-      border: 2px solid white;
-      overflow: hidden;
-      position: relative;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .exp-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #ffb3d9, #c480ff, #ffb3d9);
-      background-size: 200% 100%;
-      border-radius: 40px;
-      transition: width 0.25s;
-      box-shadow: 0 0 10px #ff99cc;
-      animation: shimmer 2.2s infinite linear;
-    }
-    @keyframes shimmer {
-      0% { background-position: 0% 0; }
-      100% { background-position: 200% 0; }
-    }
-    .exp-text {
-      font-size: 12px;
-      color: #832b5c;
-      margin-left: 4px;
-      font-weight: bold;
-    }
-    body.night .exp-section {
-      background: rgba(70,35,60,0.5);
-    }
-    body.night .exp-label,
-    body.night .exp-text {
-      color: #ffc0e8;
-    }
-    body.night .exp-bar-wrap {
-      background: #6a3a60;
-      border-color: #b27aa8;
-    }
+    .exp-section { display: flex; align-items: center; gap: 6px; margin: 6px 0 10px; background: rgba(255,255,255,0.5); border-radius: 50px; padding: 4px 10px; backdrop-filter: blur(4px); }
+    .exp-label { font-size: 16px; font-weight: 800; color: #a64d79; white-space: nowrap; text-shadow: 0 2px 4px white; }
+    .exp-bar-wrap { flex: 1; height: 16px; background: #ffe2f0; border-radius: 40px; border: 2px solid white; overflow: hidden; position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+    .exp-bar-fill { height: 100%; background: linear-gradient(90deg, #ffb3d9, #c480ff, #ffb3d9); background-size: 200% 100%; border-radius: 40px; transition: width 0.25s; box-shadow: 0 0 10px #ff99cc; animation: shimmer 2.2s infinite linear; }
+    @keyframes shimmer { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+    .exp-text { font-size: 12px; color: #832b5c; margin-left: 4px; font-weight: bold; }
 
-    /* 主按钮区 - 两行 */
-    .main-btns {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin: 6px 0 8px;
-    }
-    .btn-row {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-    }
-    .main-btn {
-      background: linear-gradient(145deg, white, #fff5fa);
-      border: 3px solid var(--main-light);
-      border-radius: 60px;
-      padding: 8px 0;
-      font-size: 16px;
-      font-weight: 800;
-      color: #b34180;
-      box-shadow: 0 5px 0 var(--main-light), 0 3px 8px rgba(255,120,180,0.3);
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      flex: 0 1 auto;
-      min-width: 90px;
-    }
-    .main-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 7px 0 var(--main-light), 0 5px 12px rgba(255,120,180,0.4);
-    }
-    .main-btn:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 var(--main-light);
-    }
-    .main-btn:disabled {
-      opacity: 0.5;
-      transform: translateY(2px);
-      box-shadow: 0 3px 0 #b090a0;
-      pointer-events: none;
-      filter: grayscale(0.4);
-    }
+    /* 主按钮区 */
+    .main-btns { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 8px; }
+    .btn-row { display: flex; justify-content: center; gap: 8px; }
+    .main-btn { background: linear-gradient(145deg, white, #fff5fa); border: 3px solid var(--main-light); border-radius: 60px; padding: 8px 0; font-size: 16px; font-weight: 800; color: #b34180; box-shadow: 0 5px 0 var(--main-light), 0 3px 8px rgba(255,120,180,0.3); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 4px; flex: 0 1 auto; min-width: 90px; }
+    .main-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--main-light), 0 5px 12px rgba(255,120,180,0.4); }
+    .main-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--main-light); }
+    .main-btn:disabled { opacity: 0.5; transform: translateY(2px); box-shadow: 0 3px 0 #b090a0; pointer-events: none; }
 
-    /* 功能小按钮 - 分为两行，色系和夜间放在同一行 */
-    .func-row {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin: 4px 0;
-    }
-    .mini-btn {
-      background: linear-gradient(145deg, #ffd9ec, #ffe4f0);
-      border: 2px solid white;
-      border-radius: 50px;
-      padding: 4px 10px;
-      font-size: 12px;
-      color: #a64d79;
-      font-weight: bold;
-      box-shadow: 0 3px 0 #ff9ec7, 0 3px 6px rgba(255,150,200,0.2);
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .mini-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 0 #ff9ec7, 0 4px 8px rgba(255,150,200,0.3);
-    }
-    .mini-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 #ff9ec7;
-    }
+    /* 功能小按钮 - 新增幸运轮盘 */
+    .func-row { display: flex; justify-content: center; gap: 6px; margin: 4px 0; flex-wrap: wrap; }
+    .mini-btn { background: linear-gradient(145deg, #ffd9ec, #ffe4f0); border: 2px solid white; border-radius: 50px; padding: 4px 10px; font-size: 12px; color: #a64d79; font-weight: bold; box-shadow: 0 3px 0 #ff9ec7, 0 3px 6px rgba(255,150,200,0.2); cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 4px; }
+    .mini-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #ff9ec7, 0 4px 8px rgba(255,150,200,0.3); }
+    .mini-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #ff9ec7; }
 
     /* 底部播放器 */
-    .bottom-player {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(255,220,240,0.85);
-      backdrop-filter: blur(16px);
-      margin: 8px -16px -12px -16px;
-      padding: 8px 16px;
-      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-      border-top: 3px solid white;
-    }
-    .now-playing {
-      flex: 2;
-      font-size: 12px;
-      background: rgba(255,255,255,0.6);
-      padding: 4px 10px;
-      border-radius: 50px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #832b5c;
-      font-weight: bold;
-      border: 2px solid white;
-    }
+    .bottom-player { display: flex; align-items: center; justify-content: space-between; background: rgba(255,220,240,0.85); backdrop-filter: blur(16px); margin: 8px -16px -12px -16px; padding: 8px 16px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-top: 3px solid white; }
+    .now-playing { flex: 2; font-size: 12px; background: rgba(255,255,255,0.6); padding: 4px 10px; border-radius: 50px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #832b5c; font-weight: bold; border: 2px solid white; }
     .ctrl-group { display: flex; gap: 4px; align-items: center; }
-    .ctrl-btn {
-      background: white;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
-      color: var(--main-color);
-      box-shadow: 0 3px 0 var(--main-light), 0 2px 5px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .ctrl-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 0 var(--main-light);
-    }
+    .ctrl-btn { background: white; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; color: var(--main-color); box-shadow: 0 3px 0 var(--main-light), 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
+    .ctrl-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 var(--main-light); }
     .ctrl-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--main-light); }
 
     /* 隐藏上传控件 */
     .upload-hide { display: none; }
 
-    /* 弹窗设计 */
-    .modal {
-      position: fixed;
-      top:0; left:0; width:100%; height:100%;
-      background: rgba(0,0,0,0.3);
-      backdrop-filter: blur(6px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-box {
-      background: #fff5fb;
-      border-radius: 60px 60px 40px 40px;
-      max-width: 480px;
-      width: 94%;
-      max-height: 82vh;
-      overflow: hidden;
-      box-shadow: 0 30px 50px #ff80b5, 0 10px 25px rgba(0,0,0,0.2);
-      border: 5px solid white;
-      animation: pop 0.3s;
-    }
-    @keyframes pop {
-      0%{transform:scale(0.7) rotate(-2deg); opacity:0;}
-      80%{transform:scale(1.01) rotate(1deg);}
-      100%{transform:scale(1) rotate(0); opacity:1;}
-    }
-    .modal-head {
-      background: linear-gradient(145deg, var(--main-light), var(--main-color));
-      padding: 14px;
-      font-size: 20px;
-      font-weight: 800;
-      color: white;
-      text-align: center;
-      position: relative;
-      text-shadow: 0 2px 4px #b34180;
-    }
-    .modal-close {
-      position: absolute;
-      right: 14px;
-      top: 10px;
-      background: none;
-      border: none;
-      font-size: 32px;
-      color: white;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+    /* 弹窗 - 优化动画 */
+    .modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-box { background: #fff5fb; border-radius: 60px 60px 40px 40px; max-width: 480px; width: 94%; max-height: 82vh; overflow: hidden; box-shadow: 0 30px 50px #ff80b5, 0 10px 25px rgba(0,0,0,0.2); border: 5px solid white; animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes pop { 0%{transform:scale(0.6) rotate(-3deg); opacity:0;} 80%{transform:scale(1.02) rotate(1deg);} 100%{transform:scale(1) rotate(0); opacity:1;} }
+    .modal-head { background: linear-gradient(145deg, var(--main-light), var(--main-color)); padding: 14px; font-size: 20px; font-weight: 800; color: white; text-align: center; position: relative; text-shadow: 0 2px 4px #b34180; }
+    .modal-close { position: absolute; right: 14px; top: 10px; background: none; border: none; font-size: 32px; color: white; cursor: pointer; transition: 0.2s; }
     .modal-close:hover { transform: scale(1.15) rotate(5deg); }
     .modal-body { padding: 14px; overflow-y: auto; max-height: 62vh; }
 
     /* 签到日历 */
-    .calendar {
-      display: grid;
-      grid-template-columns: repeat(7,1fr);
-      gap: 4px;
-      text-align: center;
-      margin: 14px 0;
-    }
-    .calendar-day {
-      background: #ffe7f2;
-      border-radius: 30px;
-      padding: 6px 0;
-      font-weight: bold;
-      color: #b34180;
-      border: 2px solid white;
-      position: relative;
-      transition: 0.15s;
-      font-size: 13px;
-    }
-    .calendar-day:hover {
-      transform: scale(1.04);
-      background: #ffd9ec;
-      box-shadow: 0 3px 0 #ff9ec7;
-    }
+    .calendar { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; text-align: center; margin: 14px 0; }
+    .calendar-day { background: #ffe7f2; border-radius: 30px; padding: 6px 0; font-weight: bold; color: #b34180; border: 2px solid white; position: relative; transition: 0.15s; font-size: 13px; }
+    .calendar-day:hover { transform: scale(1.04); background: #ffd9ec; box-shadow: 0 3px 0 #ff9ec7; }
     .calendar-day.signed { background: #b5e6b5; color: #1f6d1f; }
     .calendar-day.signed::after { content: "✔️"; position: absolute; bottom: -4px; right: -4px; font-size: 14px; }
     .calendar-day.lucky { border: 4px solid #ffd966; box-shadow: 0 0 0 2px #ffb347; }
     .calendar-day.today { font-weight: 900; background: #ffd0e8; border: 3px solid #ff3388; }
 
-    /* 商店网格 */
+    /* 商店网格 - 稀有度颜色加强 */
     .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .shop-item {
-      background: white;
-      border-radius: 30px;
-      padding: 10px;
-      border: 3px solid var(--main-light);
-      box-shadow: 0 4px 0 var(--main-light);
-      color: #2d1b2c; 
-      font-weight: 600;
-      font-size: 12px;
-      transition: var(--transition);
-    }
-    .shop-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 0 var(--main-light);
-    }
+    .shop-item { background: white; border-radius: 30px; padding: 10px; border: 3px solid var(--main-light); box-shadow: 0 4px 0 var(--main-light); color: #2d1b2c; font-weight: 600; font-size: 12px; transition: var(--transition); }
+    .shop-item.rare-0 { border-color: #9a8c98; } /* 普通 */
+    .shop-item.rare-1 { border-color: #4d9fff; } /* 稀有 */
+    .shop-item.rare-2 { border-color: #c77dff; } /* 史诗 */
+    .shop-item.rare-3 { border-color: #ff9f4b; } /* 传说 */
+    .shop-item:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--main-light); }
     .shop-item.locked { opacity: 0.6; filter: grayscale(0.5); pointer-events: none; }
-    .rare-tag {
-      font-size: 10px;
-      background: #aaa;
-      color: white;
-      padding: 2px 6px;
-      border-radius: 30px;
-      display: inline-block;
-      margin-right: 4px;
-    }
+    .rare-tag { font-size: 10px; background: #aaa; color: white; padding: 2px 6px; border-radius: 30px; display: inline-block; margin-right: 4px; }
+    .rare-0 .rare-tag { background: #9a8c98; }
     .rare-1 .rare-tag { background: #4d9fff; }
     .rare-2 .rare-tag { background: #c77dff; }
     .rare-3 .rare-tag { background: #ff9f4b; }
-    .unlock-condition {
-      font-size: 10px;
-      color: #888;
-      margin-top: 4px;
-    }
 
     /* 仓库/列表样式 */
-    .item-row {
+    .item-row { display: flex; justify-content: space-between; align-items: center; background: white; border-radius: 50px; padding: 8px 12px; margin: 6px 0; border: 2px solid var(--main-light); color: #2d1b2c; font-size: 13px; transition: var(--transition); flex-wrap: wrap; }
+    .item-row:hover { transform: translateY(-2px); box-shadow: 0 4px 0 var(--main-light); }
+    .item-info { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .item-effects { font-size: 11px; color: #555; }
+    .item-actions { display: flex; gap: 4px; }
+    .empty-msg { text-align: center; padding: 20px; color: #a77a95; font-size: 16px; }
+
+    /* 特效选择器 - 5个 */
+    .effect-option { display: inline-block; width: 70px; height: 70px; border-radius: 35px; margin: 8px; background: white; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); cursor: pointer; transition: 0.15s; text-align: center; line-height: 70px; font-size: 30px; }
+    .effect-option:hover { transform: scale(1.1) rotate(3deg); background: #ffe9f4; }
+
+    /* 存钱罐弹窗样式 - 起存标识右上角 */
+    .saving-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 10px;
+    }
+    .saving-min-note {
+      background: #ffd9ec;
+      border-radius: 30px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #b34180;
+      font-weight: bold;
+      border: 2px solid white;
+    }
+    .saving-option {
+      background: white;
+      border-radius: 40px;
+      padding: 12px;
+      margin: 8px 0;
+      border: 3px solid var(--main-light);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .saving-period { font-weight: bold; color: #b34180; font-size: 16px; }
+    .saving-rate { color: #28a745; font-weight: bold; }
+    .saving-preview { font-size: 14px; background: #ffe9f4; border-radius: 30px; padding: 4px 8px; display: inline-block; margin-top: 4px; }
+    .saving-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .saving-actions input { width: 80px; border-radius: 30px; border: 2px solid var(--main-light); padding: 6px; text-align: center; }
+    .saving-item {
       background: white;
       border-radius: 50px;
       padding: 8px 12px;
       margin: 6px 0;
       border: 2px solid var(--main-light);
-      color: #2d1b2c;
-      font-size: 13px;
-      transition: var(--transition);
-    }
-    .item-row:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 0 var(--main-light);
-    }
-    .item-info { display: flex; flex-direction: column; gap: 2px; }
-    .item-effects { font-size: 11px; color: #555; }
-    .empty-msg { text-align: center; padding: 20px; color: #a77a95; font-size: 16px; }
-
-    /* 头像历史预览 */
-    .media-grid {
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
     }
+    .saving-progress { font-size: 12px; color: #555; }
+    .saving-history {
+      margin-top: 16px;
+      border-top: 2px dashed var(--main-light);
+      padding-top: 12px;
+    }
+    .saving-history h4 { margin-bottom: 8px; color: #b34180; }
+    .history-item {
+      background: #f9e6f0;
+      border-radius: 30px;
+      padding: 6px 12px;
+      margin: 4px 0;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* 幸运轮盘样式 - 豪华可爱版 */
+    .wheel-info {
+      background: #ffe9f4;
+      border-radius: 40px;
+      padding: 10px;
+      margin-bottom: 12px;
+      text-align: center;
+      font-size: 14px;
+      border: 2px solid white;
+      box-shadow: 0 5px 0 #ff9ec7;
+    }
+    .wheel-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      cursor: grab;
+      user-select: none;
+    }
+    .wheel-container:active {
+      cursor: grabbing;
+    }
+    #wheelCanvas {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2), 0 0 0 8px white, 0 0 0 12px #ffb3d9, 0 0 30px #ff85c0;
+      border: 5px solid white;
+      transition: box-shadow 0.2s;
+    }
+    #wheelCanvas:hover {
+      box-shadow: 0 15px 35px rgba(255,120,180,0.4), 0 0 0 8px white, 0 0 0 12px #ff85c0, 0 0 40px #ff3388;
+    }
+    /* 内置指针 - 更可爱 */
+    .wheel-pointer {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 25px solid transparent;
+      border-right: 25px solid transparent;
+      border-top: 45px solid #ff3388;
+      filter: drop-shadow(0 8px 0 #b34180) drop-shadow(0 0 8px gold);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .wheel-pointer::after {
+      content: '✨';
+      position: absolute;
+      top: -50px;
+      left: -10px;
+      font-size: 20px;
+      color: gold;
+      text-shadow: 0 0 5px white;
+    }
+    .spin-btn {
+      display: block;
+      margin: 10px auto;
+      width: 150px;
+      text-align: center;
+      background: #ffb3d9;
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 60px;
+      border: 3px solid white;
+      box-shadow: 0 5px 0 #d46a9e;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .spin-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 #d46a9e;
+    }
+    .spin-btn.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .wheel-result {
+      text-align: center;
+      font-size: 16px;
+      min-height: 30px;
+      margin-top: 10px;
+      background: #fff0f7;
+      border-radius: 50px;
+      padding: 8px;
+      border: 2px solid white;
+    }
+
+    /* 其他小样式 */
+    .color-option { width: 45px; height: 45px; border-radius: 50%; display: inline-block; margin: 6px; border: 3px solid white; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.15s; }
+    .color-option:hover { transform: scale(1.12) rotate(6deg); }
     .bg-thumb {
       width: 60px;
       height: 60px;
@@ -826,60 +647,52 @@
       border: 3px solid white;
       cursor: pointer;
       transition: 0.15s;
+      background: #ffd9ec;
     }
     .bg-thumb:hover { transform: scale(1.08) rotate(2deg); border-color: #ff3388; }
-    .bg-thumb.active { border-color: #ff3388; transform: scale(1.05); }
-
-    /* 色系选择器 */
-    .color-option {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: inline-block;
-      margin: 6px;
-      border: 3px solid white;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: 0.15s;
-    }
-    .color-option:hover { transform: scale(1.12) rotate(6deg); }
+    .bg-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+    .save-item { background: white; border-radius: 40px; padding: 8px 12px; margin: 6px 0; border: 2px solid var(--main-light); display: flex; justify-content: space-between; align-items: center; }
+    .reset-btn { background: #ffb3b3; color: #a64d79; }
+    .cost-highlight { color: #ff6f00; font-weight: 800; margin-left: 4px; }
   </style>
 </head>
 <body>
-  <!-- 全屏特效层 -->
+  <!-- 全屏特效层 (用于史诗/传说) -->
   <div id="fullscreenEffect" class="fullscreen-effect"></div>
+  <!-- 升级专用特效 -->
+  <div id="levelUpBanner" class="level-up-banner">📣✨ 升 级 啦 ✨📣</div>
+  <div id="confettiRain" class="confetti-rain"></div>
 
 <div class="game-box">
-  <!-- 顶部栏 -->
+  <!-- 顶部栏 - 猪猪存钱罐 -->
   <div class="top-bar">
     <div class="play-time" id="playTime">陪伴时间 00:00:00</div>
-    <div class="coin" id="coinView"><span>💰</span> <span id="coinAmount">0.0</span></div>
+    <div style="display: flex; gap: 8px;">
+      <div class="piggy-bank" onclick="playClickSound(); openSavingModal()">🐷 <span id="savingCount">0</span></div>
+      <div class="coin" id="coinView"><span>💰</span> <span id="coinAmount">0.0</span></div>
+    </div>
   </div>
 
   <!-- 商店仓库行 -->
   <div class="shop-row">
-    <button class="mini-btn" onclick="openShop()"><span>🛒</span> 商店</button>
-    <button class="mini-btn" onclick="openStorage()"><span>📦</span> 仓库</button>
+    <button class="mini-btn" onclick="playClickSound(); openShop()"><span>🛒</span> 商店</button>
+    <button class="mini-btn" onclick="playClickSound(); openStorage()"><span>📦</span> 仓库</button>
   </div>
 
   <!-- 角色名 -->
-  <div class="character-name">
-    赫菈 <small>Hera</small>
-  </div>
+  <div class="character-name">赫菈 <small>Hera</small></div>
 
-  <!-- 头像区 (包含波纹) -->
+  <!-- 头像区 (无边框) -->
   <div class="avatar-wrap">
-    <!-- 水纹条 - 在头像后面 -->
-    <div class="wave-bar">
-      <canvas id="waveCanvas" width="500" height="80"></canvas>
+    <div class="avatar-container" id="avatarContainer">
+      <div class="wave-bar"><canvas id="waveCanvas" width="500" height="80"></canvas></div>
+      <div class="avatar" id="avatarBox" title="点我赚💰0.1" onclick="playClickSound()">
+        <img id="avatarImg" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmZjY2U1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNiYjU1OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7H6Qp9PC90ZXh0Pjwvc3ZnPg==" alt="赫菈">
+        <div id="floatChatContainer" class="float-chat-container"></div>
+      </div>
+      <div id="avatarRipple" class="avatar-ripple"></div>
+      <div id="moodEmoji" class="mood-emoji">😊</div>
     </div>
-    <div class="avatar" id="avatarBox" title="点我赚💰0.1">
-      <img id="avatarImg" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmZjY2U1Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNiYjU1OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj7H6Qp9PC90ZXh0Pjwvc3ZnPg==" alt="赫菈">
-      <div id="floatChatContainer" class="float-chat-container"></div>
-    </div>
-    <!-- 动态光晕层 -->
-    <div id="avatarRipple" class="avatar-ripple"></div>
-    <div id="moodEmoji" class="mood-emoji">😊</div>
   </div>
 
   <!-- 固定对话 -->
@@ -897,48 +710,51 @@
   <!-- 经验条 + 等级 -->
   <div class="exp-section">
     <span class="exp-label">Lv.<span id="levelDisplay">1</span></span>
-    <div class="exp-bar-wrap">
-      <div class="exp-bar-fill" id="expBar" style="width:0%"></div>
-    </div>
+    <div class="exp-bar-wrap"><div class="exp-bar-fill" id="expBar" style="width:0%"></div></div>
     <span class="exp-text" id="expText">0/100</span>
   </div>
 
-  <!-- 主按钮区 - 两行 -->
+  <!-- 主按钮区 -->
   <div class="main-btns">
     <div class="btn-row">
-      <button class="main-btn" id="chatBtn" onclick="chatTalk()"><span>💬</span> 聊天</button>
-      <button class="main-btn" onclick="openEat()"><span>🍪</span> 零食</button>
-      <button class="main-btn" onclick="openPlay()"><span>🎮</span> 玩耍</button>
+      <button class="main-btn" id="chatBtn" onclick="playClickSound(); chatTalk()"><span>💬</span> 聊天</button>
+      <button class="main-btn" onclick="playClickSound(); openEat()"><span>🍪</span> 零食</button>
+      <button class="main-btn" onclick="playClickSound(); openPlay()"><span>🎮</span> 玩耍</button>
     </div>
     <div class="btn-row">
-      <button class="main-btn" id="restBtn" onclick="doRest()"><span>😴</span> 休息</button>
-      <button class="main-btn" id="cleanBtn" onclick="doClean()"><span>🧹</span> 清洁</button>
+      <button class="main-btn" id="restBtn" onclick="playClickSound(); doRest()"><span>😴</span> 休息</button>
+      <button class="main-btn" id="cleanBtn" onclick="playClickSound(); doClean()"><span>🧹</span> 清洁</button>
     </div>
   </div>
 
-  <!-- 功能小按钮 - 分为两行：第一行其他功能，第二行色系和夜间 -->
+  <!-- 功能小按钮 - 新增幸运轮盘 -->
   <div class="func-row">
-    <button class="mini-btn" onclick="openAvatarManager()"><span>📸</span> 头像</button>
-    <button class="mini-btn" onclick="openSignModal()"><span>📅</span> 签到</button>
-    <button class="mini-btn" onclick="openMusicManager()"><span>🎵</span> 音乐库</button>
+    <button class="mini-btn" onclick="playClickSound(); openAvatarManager()"><span>📸</span> 头像</button>
+    <button class="mini-btn" onclick="playClickSound(); openSignModal()"><span>📅</span> 签到</button>
+    <button class="mini-btn" onclick="playClickSound(); openMusicManager()"><span>🎵</span> 音乐库</button>
   </div>
   <div class="func-row">
-    <button class="mini-btn" onclick="openColorModal()"><span>🎨</span> 色系</button>
-    <button class="mini-btn" onclick="toggleTheme()"><span>🌙</span> 夜间</button>
+    <button class="mini-btn" onclick="playClickSound(); openColorModal()"><span>🎨</span> 色系</button>
+    <button class="mini-btn" onclick="playClickSound(); toggleTheme()"><span>🌙</span> 夜间</button>
+    <button class="mini-btn" onclick="playClickSound(); openEffectModal()"><span>✨</span> 特效</button>
+  </div>
+  <div class="func-row">
+    <button class="mini-btn" onclick="playClickSound(); openWheelModal()"><span>🎰</span> 幸运拉盘</button>
+    <button class="mini-btn" onclick="playClickSound(); openSaveModal()"><span>💾</span> 保存/历史</button>
   </div>
 
   <!-- 底部播放器 -->
   <div class="bottom-player">
-    <div class="now-playing" id="nowPlaying" title="当前歌曲">🎵 未播放</div>
+    <div class="now-playing" id="nowPlaying">🎵 未播放</div>
     <div class="ctrl-group">
-      <button class="ctrl-btn" onclick="prevMusic()" title="上一首"><span>⏮️</span></button>
-      <button class="ctrl-btn" id="musicPlayPause" onclick="toggleMusic()" title="播放/暂停"><span>▶️</span></button>
-      <button class="ctrl-btn" onclick="nextMusic()" title="下一首"><span>⏭️</span></button>
+      <button class="ctrl-btn" onclick="playClickSound(); prevMusic()"><span>⏮️</span></button>
+      <button class="ctrl-btn" id="musicPlayPause" onclick="playClickSound(); toggleMusic()"><span>▶️</span></button>
+      <button class="ctrl-btn" onclick="playClickSound(); nextMusic()"><span>⏭️</span></button>
     </div>
   </div>
 
   <!-- 隐藏上传控件 -->
-  <input type="file" id="avatarInput" accept="image/jpeg,image/png,image/webp,image/gif" class="upload-hide">
+  <input type="file" id="avatarInput" accept="image/*" class="upload-hide">
   <input type="file" id="musicInput" accept="audio/*" multiple class="upload-hide">
 </div>
 
@@ -961,8 +777,21 @@
 <!-- 音乐管理弹窗 -->
 <div class="modal" id="musicModal"><div class="modal-box"><div class="modal-head">🎵 音乐库 <button class="modal-close" onclick="closeModal('musicModal')">×</button></div><div class="modal-body"><button class="mini-btn" onclick="addMusicFiles()" style="margin-bottom:12px">➕ 添加音乐</button><div id="musicList"></div></div></div></div>
 
-<!-- 头像管理弹窗 -->
-<div class="modal" id="avatarModal"><div class="modal-box"><div class="modal-head">📸 头像换装 <button class="modal-close" onclick="closeModal('avatarModal')">×</button></div><div class="modal-body"><button class="mini-btn" onclick="chooseAvatar()">📤 上传新头像</button><div style="margin:12px 0; font-size:16px;">最近5个头像</div><div id="avatarHistoryList" class="media-grid"></div></div></div></div>
+<!-- 头像管理弹窗 (使用真实图片头像) -->
+<div class="modal" id="avatarModal"><div class="modal-box"><div class="modal-head">📸 头像换装 <button class="modal-close" onclick="closeModal('avatarModal')">×</button></div><div class="modal-body">
+  <button class="mini-btn" onclick="chooseAvatar()" style="margin-bottom:12px">📤 上传新头像</button>
+  <div style="margin:12px 0; font-size:16px;">✨ 已有头像 ✨</div>
+  <div class="media-grid" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+    <div class="bg-thumb" onclick="setAvatarFromPreset('发财动态')"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=发财动态" alt="发财动态"></div>
+    <div class="bg-thumb" onclick="setAvatarFromPreset('菈菈爪爪')"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=菈菈爪爪" alt="菈菈爪爪"></div>
+    <div class="bg-thumb" onclick="setAvatarFromPreset('捧爱心')"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=捧爱心" alt="捧爱心"></div>
+    <div class="bg-thumb" onclick="setAvatarFromPreset('猫爪动态')"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=猫爪动态" alt="猫爪动态"></div>
+    <div class="bg-thumb" onclick="setAvatarFromPreset('歪头坐女仆版')"><img src="https://api.dicebear.com/7.x/adventurer/svg?seed=歪头坐女仆版" alt="歪头坐女仆版"></div>
+  </div>
+  <div style="margin-top:12px; font-size:12px; color:#b34180;">点击图片即可换上对应风格头像</div>
+  <div style="margin-top:16px; font-size:16px;">📜 历史头像</div>
+  <div id="avatarHistoryList" class="media-grid" style="margin-top:8px;"></div>
+</div></div></div>
 
 <!-- 色系设置弹窗 -->
 <div class="modal" id="colorModal"><div class="modal-box"><div class="modal-head">🎨 版面色系 <button class="modal-close" onclick="closeModal('colorModal')">×</button></div><div class="modal-body"><div style="text-align:center;">
@@ -975,388 +804,834 @@
   <div style="margin-top:8px; font-size:14px;">点击色块切换主色调</div>
 </div></div></div></div>
 
+<!-- 特效弹窗 - 5个特效 (全部动态) -->
+<div class="modal" id="effectModal"><div class="modal-box"><div class="modal-head">✨ 面板特效 <button class="modal-close" onclick="closeModal('effectModal')">×</button></div><div class="modal-body" style="text-align:center;">
+  <p style="margin-bottom:12px; font-size:14px;">5种动态特效，点击使用</p>
+  <div>
+    <div class="effect-option" onclick="selectEffect('cloud')">☁️</div>
+    <div class="effect-option" onclick="selectEffect('stars')">✨</div>
+    <div class="effect-option" onclick="selectEffect('slash')">⚡</div>
+    <div class="effect-option" onclick="selectEffect('quicksand')">⌛</div>
+    <div class="effect-option" onclick="selectEffect('meteor')">🌠</div>
+  </div>
+  <div style="margin-top:16px"><button class="mini-btn" onclick="clearEffect()">关闭特效</button></div>
+</div></div></div>
+
+<!-- 存钱罐弹窗 (含历史记录) 利率1%起 -->
+<div class="modal" id="savingModal"><div class="modal-box"><div class="modal-head">🐷 猪猪存钱罐 <button class="modal-close" onclick="closeModal('savingModal')">×</button></div><div class="modal-body">
+  <div class="saving-header">
+    <span></span>
+    <span class="saving-min-note">💰 1000起存</span>
+  </div>
+  <div style="margin-bottom:16px; text-align:center;">
+    <span class="mini-btn" onclick="showSavingTab('short')">短期</span>
+    <span class="mini-btn" onclick="showSavingTab('mid')">中期</span>
+    <span class="mini-btn" onclick="showSavingTab('long')">长期</span>
+  </div>
+  <div id="savingOptions" style="margin-bottom:16px;"></div>
+  <div id="activeSavings"></div>
+  <div id="savingHistoryContainer" class="saving-history"></div>
+</div></div></div>
+
+<!-- 幸运轮盘弹窗 (下拉旋转) -->
+<div class="modal" id="wheelModal"><div class="modal-box"><div class="modal-head">🎰 幸运拉盘 <button class="modal-close" onclick="closeModal('wheelModal')">×</button></div><div class="modal-body">
+  <div id="wheelInfo" class="wheel-info">加载今日运势...</div>
+  <div class="wheel-container" id="wheelContainer">
+    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+    <div class="wheel-pointer"></div>
+  </div>
+  <div id="wheelPullHint" style="text-align:center; font-size:12px; color:#b34180; margin-top:5px;">👇 向下拉动轮盘开始旋转，拉得越快转得越久</div>
+  <button class="spin-btn" id="spinWheelBtn" onclick="spinWheel()" style="display:none;">开始旋转</button>
+  <div id="wheelResult" class="wheel-result"></div>
+</div></div></div>
+
+<!-- 盲盒打开弹窗（带更换金额） -->
+<div class="modal" id="boxOpenModal"><div class="modal-box"><div class="modal-head">🎁 恭喜升级！ <button class="modal-close" onclick="closeBoxModal()">×</button></div><div class="modal-body">
+  <div style="text-align:center; font-size:18px; margin-bottom:10px;" id="boxLevelText">Lv.X</div>
+  <div id="boxContent" class="box-content">❓</div>
+  <div style="text-align:center; margin:8px;" id="boxItemName"></div>
+  <div class="box-buttons" style="display:flex; justify-content:center; gap:16px; margin:16px 0;">
+    <button class="mini-btn" id="boxConfirmBtn" onclick="boxConfirm()">✅ 确认</button>
+    <button class="mini-btn" id="boxReplaceBtn" onclick="boxReplace()">🔄 更换 <span id="replaceCostSpan" class="cost-highlight"></span></button>
+  </div>
+  <div style="text-align:center; font-size:12px; color:#b34180;">💡 更换费用递增: 10·2ⁿ</div>
+</div></div></div>
+
+<!-- 简单提示弹窗 -->
+<div class="modal" id="messageModal"><div class="modal-box"><div class="modal-head">📢 提示 <button class="modal-close" onclick="closeModal('messageModal')">×</button></div><div class="modal-body" id="messageText" style="text-align:center; font-size:18px; padding:20px;"></div></div></div>
+
+<!-- 历史保存弹窗 -->
+<div class="modal" id="saveModal"><div class="modal-box"><div class="modal-head">💾 历史存档 <button class="modal-close" onclick="closeModal('saveModal')">×</button></div><div class="modal-body" style="text-align:center;"><button class="mini-btn" onclick="manualSave()" style="margin-bottom:12px">📥 保存当前进度</button><button class="mini-btn reset-btn" onclick="resetGame()" style="margin-bottom:12px">🔄 重置游戏</button><div id="saveList"></div></div></div></div>
+
 <script>
-// ====================== 全局工具 ======================
+// ====================== 完整游戏逻辑（含幸运拉盘、存钱利率1%起、真实头像、签到弹窗、按钮音效）======================
 const $ = id => document.getElementById(id);
 const cap = (v, max, min = 0) => Math.max(min, Math.min(max, v));
 const formatTime = ms => { let s = Math.floor(ms/1000); return `${Math.floor(s/3600).toString().padStart(2,'0')}:${Math.floor(s%3600/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`; };
 const rareText = ['普通','稀有','史诗','传说'];
+
+// 音效系统
+let audioCtx = null;
+function playClickSound() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume().then(() => createSoftWarmClick());
+    else createSoftWarmClick();
+  } catch(e){}
+}
+function createSoftWarmClick() {
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = 400;
+  gain.gain.value = 0.08;
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+  osc.stop(now + 0.1);
+}
+function playImpactSound() {
+  try {
+    if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.value = 200;
+    gain.gain.value = 0.15;
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    osc.stop(now + 0.2);
+  } catch(e){}
+}
+function playCuteLevelUpSound() {
+  try {
+    if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const now = audioCtx.currentTime;
+    const freqs = [523.25, 587.33, 659.25];
+    freqs.forEach((f, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = f;
+      gain.gain.value = 0.1;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now + i * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.2);
+      osc.stop(now + i * 0.1 + 0.2);
+    });
+  } catch(e){}
+}
+
+// 特效 (5种)
+let currentEffect = localStorage.getItem('currentEffect') || '';
+function applyEffect(effect) {
+  document.body.classList.remove('effect-cloud','effect-stars','effect-slash','effect-quicksand','effect-meteor');
+  if (effect) { document.body.classList.add(`effect-${effect}`); currentEffect = effect; }
+  else currentEffect = '';
+  localStorage.setItem('currentEffect', currentEffect);
+}
+function clearEffect() { applyEffect(''); closeModal('effectModal'); }
+function selectEffect(effect) { applyEffect(effect); closeModal('effectModal'); }
+function openEffectModal() { openModal('effectModal'); }
+
+// ========== 存钱罐系统 (利率1%起) ==========
+let savings = JSON.parse(localStorage.getItem('savings') || '[]');
+let savingHistory = JSON.parse(localStorage.getItem('savingHistory') || '[]');
+
+const rates = {
+  '1d': 0.01,   // 1%
+  '3d': 0.015,
+  '7d': 0.02,
+  '15d': 0.025,
+  '1m': 0.03,
+  '3m': 0.035,
+  '6m': 0.04,
+  '9m': 0.045,
+  '12m': 0.05
+};
+
+function getTermText(term) {
+  const map = {
+    '1d':'1天', '3d':'3天', '7d':'7天',
+    '15d':'15天', '1m':'1个月', '3m':'3个月',
+    '6m':'6个月', '9m':'9个月', '12m':'1年'
+  };
+  return map[term] || term;
+}
+
+function calculateInterest(amount, rate, days) {
+  return amount * rate * (days / 365);
+}
+
+function getDays(term) {
+  if (term === '1d') return 1;
+  else if (term === '3d') return 3;
+  else if (term === '7d') return 7;
+  else if (term === '15d') return 15;
+  else if (term === '1m') return 30;
+  else if (term === '3m') return 90;
+  else if (term === '6m') return 180;
+  else if (term === '9m') return 270;
+  else if (term === '12m') return 365;
+  return 0;
+}
+
+function createSaving(amount, term) {
+  let days = getDays(term);
+  let rate = rates[term];
+  let now = Date.now();
+  let endTime = now + days * 24 * 60 * 60 * 1000;
+  let saving = {
+    amount: amount,
+    startTime: now,
+    endTime: endTime,
+    rate: rate,
+    term: term,
+    termText: getTermText(term)
+  };
+  savings.push(saving);
+  localStorage.setItem('savings', JSON.stringify(savings));
+  return saving;
+}
+
+function checkMaturedSavings() {
+  let now = Date.now();
+  let matured = savings.filter(s => s.endTime <= now);
+  if (matured.length > 0) {
+    matured.forEach(s => {
+      let days = (s.endTime - s.startTime) / (24*60*60*1000);
+      let interest = calculateInterest(s.amount, s.rate, days);
+      coin += s.amount + interest;
+      savingHistory.push({
+        time: new Date(s.endTime).toLocaleString(),
+        amount: s.amount,
+        interest: interest,
+        term: s.termText
+      });
+      if (savingHistory.length > 20) savingHistory.shift();
+      showLog(`🐷 存钱罐到期：获得本金 ${s.amount.toFixed(1)}💰 + 利息 ${interest.toFixed(1)}💰 (${s.termText})`);
+    });
+    savings = savings.filter(s => s.endTime > now);
+    localStorage.setItem('savings', JSON.stringify(savings));
+    localStorage.setItem('savingHistory', JSON.stringify(savingHistory));
+    updateSavingCount();
+    updateUI();
+    save();
+  }
+}
+setInterval(checkMaturedSavings, 60000);
+
+function updateSavingCount() {
+  $('savingCount').innerText = savings.length;
+}
+
+function openSavingModal() {
+  renderSavingOptions('short');
+  renderActiveSavings();
+  renderSavingHistory();
+  openModal('savingModal');
+}
+
+function showSavingTab(type) {
+  renderSavingOptions(type);
+}
+
+function renderSavingOptions(type) {
+  let options = [];
+  if (type === 'short') options = ['1d', '3d', '7d'];
+  else if (type === 'mid') options = ['15d', '1m', '3m'];
+  else if (type === 'long') options = ['6m', '9m', '12m'];
+  let html = '';
+  options.forEach(term => {
+    let rate = (rates[term] * 100).toFixed(2);
+    let days = getDays(term);
+    html += `<div class="saving-option">
+      <div><span class="saving-period">${getTermText(term)}</span> <span class="saving-rate">年化 ${rate}%</span></div>
+      <div class="saving-actions">
+        <input type="number" id="amount-${term}" min="1" value="1000" step="100" style="width:90px;"> 💰
+        <button class="mini-btn" onclick="previewSaving('${term}')">预览</button>
+        <button class="mini-btn" onclick="startSaving('${term}')">存入</button>
+      </div>
+      <div id="preview-${term}" class="saving-preview"></div>
+    </div>`;
+  });
+  $('savingOptions').innerHTML = html;
+}
+
+function previewSaving(term) {
+  playClickSound(); // 添加音效
+  let input = $(`amount-${term}`);
+  let amount = parseFloat(input.value);
+  if (isNaN(amount) || amount <= 0) { showMessage('请输入有效的金币数量'); return; }
+  let days = getDays(term);
+  let rate = rates[term];
+  let interest = calculateInterest(amount, rate, days);
+  let total = amount + interest;
+  $(`preview-${term}`).innerHTML = `预计到期总额: ${total.toFixed(2)} 💰 (利息 ${interest.toFixed(2)})`;
+}
+
+function startSaving(term) {
+  playClickSound(); // 添加音效
+  let input = $(`amount-${term}`);
+  let amount = parseFloat(input.value);
+  if (isNaN(amount) || amount <= 0) { showMessage('请输入有效的金币数量'); return; }
+  if (amount > coin) { showMessage('金币不足'); return; }
+  coin -= amount;
+  createSaving(amount, term);
+  updateUI(); save(); updateSavingCount();
+  renderActiveSavings();
+  $(`preview-${term}`).innerHTML = '';
+  showMessage(`存入 ${amount}💰 到 ${getTermText(term)} 存钱罐`);
+}
+
+function renderActiveSavings() {
+  if (savings.length === 0) {
+    $('activeSavings').innerHTML = '<div class="empty-msg">暂无进行中的存钱罐</div>';
+    return;
+  }
+  let html = '<h4 style="margin:10px 0;">进行中的存钱罐</h4>';
+  savings.forEach((s, idx) => {
+    let now = Date.now();
+    let remaining = Math.max(0, s.endTime - now);
+    let daysLeft = Math.ceil(remaining / (24*60*60*1000));
+    let hoursLeft = Math.ceil(remaining / (60*60*1000));
+    let timeStr = daysLeft > 0 ? `${daysLeft}天` : `${hoursLeft}小时`;
+    html += `<div class="saving-item">
+      <span>🐷 ${s.amount}💰 (${s.termText})</span>
+      <span class="saving-progress">剩余 ${timeStr}</span>
+    </div>`;
+  });
+  $('activeSavings').innerHTML = html;
+}
+
+function renderSavingHistory() {
+  let historyEl = $('savingHistoryContainer');
+  if (!savingHistory.length) {
+    historyEl.innerHTML = '<h4>📜 历史记录</h4><div class="empty-msg">暂无到期记录</div>';
+    return;
+  }
+  let html = '<h4>📜 最近到期记录</h4>';
+  savingHistory.slice().reverse().forEach(item => {
+    html += `<div class="history-item"><span>${item.term} ${item.amount}💰</span><span>+${item.interest.toFixed(1)}💰</span><span>${item.time}</span></div>`;
+  });
+  historyEl.innerHTML = html;
+}
+
+// ========== 幸运轮盘系统 (下拉旋转) ==========
+let wheelData = {
+  lastSpinDate: '',
+  spinsLeft: 1,
+  luckyNumber: 7,
+  luckyColor: '#ff85c0',
+  luckyStar: 5,
+  quote: ''
+};
+const quotes = [
+  '心怀希望，幸运自来。', '每一天都是新的礼物。', '你的笑容是最美的阳光。',
+  '小小的幸运，大大的幸福。', '努力的人最幸运。', '保持热爱，奔赴山海。',
+  '星光不负赶路人。', '一切都是最好的安排。', '今天也是元气满满的一天！'
+];
+const wheelSegments = [
+  { label: '金币', color: '#FFD700', weight: 30, type: 'coin' },
+  { label: '经验', color: '#4d9fff', weight: 25, type: 'exp' },
+  { label: '零食', color: '#ffb3d9', weight: 15, type: 'snack' },
+  { label: '玩具', color: '#ffa07a', weight: 10, type: 'toy' },
+  { label: '日用品', color: '#20b2aa', weight: 8, type: 'daily' },
+  { label: '主食', color: '#b87333', weight: 6, type: 'food' },
+  { label: '史诗物品', color: '#c77dff', weight: 4, type: 'epic' },
+  { label: '传说物品', color: '#ff9f4b', weight: 2, type: 'legend' }
+];
+let wheelCtx, wheelCanvas;
+let isDragging = false;
+let startY = 0;
+let pullDistance = 0;
+let rotationAngle = 0;
+let spinVelocity = 0;
+let spinAnimation = null;
+let spinning = false;
+let pullHint = '';
+
+function initWheel() {
+  wheelCanvas = $('wheelCanvas');
+  if (!wheelCanvas) return;
+  wheelCtx = wheelCanvas.getContext('2d');
+  drawWheel(rotationAngle);
+}
+
+function drawWheel(rotateAngle = 0) {
+  if (!wheelCtx) return;
+  const ctx = wheelCtx;
+  const canvas = wheelCanvas;
+  const width = canvas.width, height = canvas.height;
+  const centerX = width/2, centerY = height/2;
+  const radius = Math.min(width, height) * 0.4;
+  ctx.clearRect(0, 0, width, height);
+  
+  let totalWeight = wheelSegments.reduce((acc, seg) => acc + seg.weight, 0);
+  let startAngle = rotateAngle;
+  wheelSegments.forEach(seg => {
+    let angle = (seg.weight / totalWeight) * 2 * Math.PI;
+    ctx.beginPath();
+    ctx.moveTo(centerX, centerY);
+    ctx.arc(centerX, centerY, radius, startAngle, startAngle + angle);
+    ctx.closePath();
+    ctx.fillStyle = seg.color;
+    ctx.fill();
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    // 绘制文字
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(startAngle + angle/2);
+    ctx.textAlign = 'center';
+    ctx.font = 'bold 14px "M PLUS Rounded 1c", sans-serif';
+    ctx.fillStyle = 'white';
+    ctx.shadowColor = 'black';
+    ctx.shadowBlur = 4;
+    ctx.fillText(seg.label, radius * 0.7, 0);
+    ctx.restore();
+    startAngle += angle;
+  });
+}
+
+function refreshWheelDaily() {
+  let today = new Date().toDateString();
+  if (wheelData.lastSpinDate !== today) {
+    wheelData.lastSpinDate = today;
+    wheelData.spinsLeft = 1;
+    wheelData.luckyNumber = Math.floor(Math.random() * 10) + 1;
+    wheelData.luckyColor = ['#ff85c0','#6a5acd','#20b2aa','#ffa07a','#2c3e50','#3498db'][Math.floor(Math.random()*6)];
+    wheelData.luckyStar = Math.floor(Math.random() * 5) + 1;
+    wheelData.quote = quotes[Math.floor(Math.random() * quotes.length)];
+    localStorage.setItem('wheelData', JSON.stringify(wheelData));
+  }
+  updateWheelInfo();
+}
+
+function updateWheelInfo() {
+  let starStr = '★'.repeat(wheelData.luckyStar) + '☆'.repeat(5 - wheelData.luckyStar);
+  $('wheelInfo').innerHTML = `今日幸运数字: ${wheelData.luckyNumber} | 幸运色: <span style="color:${wheelData.luckyColor}">●</span> | 幸运星级: ${starStr}<br>✨ ${wheelData.quote}`;
+}
+
+function openWheelModal() {
+  refreshWheelDaily();
+  initWheel();
+  openModal('wheelModal');
+  // 绑定下拉事件
+  let container = $('wheelContainer');
+  container.addEventListener('mousedown', startDrag);
+  container.addEventListener('mousemove', duringDrag);
+  container.addEventListener('mouseup', endDrag);
+  container.addEventListener('mouseleave', endDrag);
+  // 触摸事件
+  container.addEventListener('touchstart', startDrag);
+  container.addEventListener('touchmove', duringDrag);
+  container.addEventListener('touchend', endDrag);
+}
+
+function startDrag(e) {
+  if (spinning || wheelData.spinsLeft <= 0) return;
+  e.preventDefault();
+  isDragging = true;
+  let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+  startY = clientY;
+  pullDistance = 0;
+  $('wheelPullHint').innerText = '👇 向下拉...';
+}
+
+function duringDrag(e) {
+  if (!isDragging) return;
+  e.preventDefault();
+  let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+  let deltaY = clientY - startY;
+  if (deltaY < 0) deltaY = 0; // 只允许下拉
+  pullDistance = Math.min(deltaY, 300); // 最大下拉距离300px
+  $('wheelPullHint').innerText = `下拉力: ${Math.floor(pullDistance/3)}%`;
+}
+
+function endDrag(e) {
+  if (!isDragging || spinning) return;
+  isDragging = false;
+  if (pullDistance > 20) {
+    // 根据下拉距离计算初速度
+    spinVelocity = pullDistance / 50; // 速度因子
+    spinning = true;
+    wheelData.spinsLeft--;
+    localStorage.setItem('wheelData', JSON.stringify(wheelData));
+    updateWheelInfo();
+    spinAnimation = requestAnimationFrame(spin);
+  } else {
+    $('wheelPullHint').innerText = '👇 向下拉动轮盘开始旋转';
+  }
+  pullDistance = 0;
+}
+
+function spin() {
+  if (!spinning) return;
+  rotationAngle += spinVelocity;
+  spinVelocity *= 0.98; // 减速
+  drawWheel(rotationAngle);
+  if (spinVelocity < 0.01) {
+    // 停止，计算选中区域
+    spinning = false;
+    cancelAnimationFrame(spinAnimation);
+    let totalWeight = wheelSegments.reduce((acc, seg) => acc + seg.weight, 0);
+    let angle = rotationAngle % (2 * Math.PI);
+    if (angle < 0) angle += 2 * Math.PI;
+    let cumulative = 0;
+    let selected = null;
+    for (let seg of wheelSegments) {
+      let segAngle = (seg.weight / totalWeight) * 2 * Math.PI;
+      if (angle >= cumulative && angle < cumulative + segAngle) {
+        selected = seg;
+        break;
+      }
+      cumulative += segAngle;
+    }
+    if (!selected) selected = wheelSegments[0];
+    giveWheelReward(selected);
+    $('wheelPullHint').innerText = '👇 向下拉动轮盘开始旋转';
+  } else {
+    spinAnimation = requestAnimationFrame(spin);
+  }
+}
+
+function giveWheelReward(segment) {
+  let rewardText = '';
+  let rareLevel = 0;
+  if (segment.type === 'coin') {
+    let amount = Math.floor(Math.random() * 50) + 30;
+    coin += amount;
+    rewardText = `获得 ${amount}💰 金币`;
+  } else if (segment.type === 'exp') {
+    let amount = Math.floor(Math.random() * 100) + 50;
+    addExp(amount);
+    rewardText = `获得 ${amount} 经验`;
+  } else if (segment.type === 'snack') {
+    let possible = items.filter(i => i.type === 0 && i.rare === 0);
+    let item = possible[Math.floor(Math.random() * possible.length)];
+    addItemToStorage(item);
+    rewardText = `获得 ${item.name}`;
+  } else if (segment.type === 'toy') {
+    let possible = items.filter(i => i.type === 1 && i.rare === 0);
+    let item = possible[Math.floor(Math.random() * possible.length)];
+    addItemToStorage(item);
+    rewardText = `获得 ${item.name}`;
+  } else if (segment.type === 'daily') {
+    let possible = items.filter(i => i.type === 3 && i.rare === 0);
+    let item = possible[Math.floor(Math.random() * possible.length)];
+    addItemToStorage(item);
+    rewardText = `获得 ${item.name}`;
+  } else if (segment.type === 'food') {
+    let possible = items.filter(i => i.type === 2 && i.rare === 0);
+    let item = possible[Math.floor(Math.random() * possible.length)];
+    addItemToStorage(item);
+    rewardText = `获得 ${item.name}`;
+  } else if (segment.type === 'epic') {
+    let possible = items.filter(i => i.rare === 2);
+    let item = possible[Math.floor(Math.random() * possible.length)];
+    addItemToStorage(item);
+    rewardText = `获得史诗物品 ${item.name}`;
+    rareLevel = 2;
+  } else if (segment.type === 'legend') {
+    let possible = items.filter(i => i.rare === 3);
+    let item = possible[Math.floor(Math.random() * possible.length)];
+    addItemToStorage(item);
+    rewardText = `获得传说物品 ${item.name}`;
+    rareLevel = 3;
+  }
+  $('wheelResult').innerText = rewardText;
+  // 改为弹窗显示，避免过快消失
+  showMessage(rewardText);
+  if (rareLevel >= 2) {
+    showFullscreenEffect(rareLevel);
+  } else {
+    let effectDiv = $('fullscreenEffect');
+    effectDiv.className = 'fullscreen-effect';
+    effectDiv.style.display = 'flex';
+    effectDiv.innerText = '🎉 恭喜 🎉';
+    setTimeout(() => { effectDiv.style.display = 'none'; }, 800);
+  }
+  updateUI(); save();
+}
+
+function addItemToStorage(item) {
+  let exist = storage.find(s => s.name === item.name);
+  if (exist) exist.count++;
+  else storage.push({ ...item, count: 1 });
+}
+
+// 历史保存
+let saveHistory = JSON.parse(localStorage.getItem('saveHistory') || '[]');
+function renderSaveList() {
+  let html = '';
+  if (saveHistory.length === 0) html = '<div class="empty-msg">暂无存档</div>';
+  else saveHistory.forEach((item,index)=>{
+    const date=new Date(item.timestamp);
+    const timeStr=`${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes().toString().padStart(2,'0')}`;
+    html+=`<div class="save-item"><span class="save-time">${timeStr}</span><button class="mini-btn" onclick="confirmLoad(${index})">加载</button></div>`;
+  });
+  if($('saveList')) $('saveList').innerHTML=html;
+}
+function manualSave() {
+  const data={mood, energy, full, health, love, coin, level, exp, storage, boxReplaceCount, chatCD, restCD, cleanCD, lastDecay, savings, savingHistory, wheelData};
+  saveHistory.unshift({timestamp:Date.now(), data});
+  if(saveHistory.length>10) saveHistory.pop();
+  localStorage.setItem('saveHistory', JSON.stringify(saveHistory));
+  renderSaveList(); showMessage('进度已保存');
+}
+function confirmLoad(index) {
+  if(confirm('确定要加载这个存档吗？当前未保存的进度会丢失。')){
+    const item=saveHistory[index]; loadFromData(item.data); closeModal('saveModal'); showMessage('存档加载成功');
+  }
+}
+function loadFromData(data) {
+  mood=data.mood??50; energy=data.energy??50; full=data.full??50; health=data.health??50; love=data.love??50;
+  coin=data.coin??20; level=data.level??1; exp=data.exp??0; storage=data.storage??[];
+  boxReplaceCount=data.boxReplaceCount??0; chatCD=data.chatCD??0; restCD=data.restCD??0; cleanCD=data.cleanCD??0; lastDecay=data.lastDecay??Date.now();
+  savings=data.savings??[]; savingHistory=data.savingHistory??[]; wheelData=data.wheelData??{lastSpinDate:'',spinsLeft:1,luckyNumber:7,luckyColor:'#ff85c0',luckyStar:5,quote:''};
+  updateMax(); updateUI(); save(); 
+  $('chatBtn').innerText='💬 聊天'; $('restBtn').innerText='😴 休息'; $('cleanBtn').innerText='🧹 清洁';
+  if(chatCD>Date.now()) startCDTimer('chatBtn',chatCD,'💬 聊天');
+  if(restCD>Date.now()) startCDTimer('restBtn',restCD,'😴 休息');
+  if(cleanCD>Date.now()) startCDTimer('cleanBtn',cleanCD,'🧹 清洁');
+  updateSavingCount();
+}
+function openSaveModal() { renderSaveList(); openModal('saveModal'); }
+function resetGame() {
+  if(confirm('确定要重置游戏吗？所有数据将清空，回到初始状态。')) {
+    localStorage.clear();
+    location.reload();
+  }
+}
+function showMessage(msg) { $('messageText').innerText = msg; openModal('messageModal'); }
+
+// 盲盒更换计数器
+let boxReplaceCount = parseInt(localStorage.getItem('boxReplaceCount') || '0');
+let upgradeQueue = [];
+let currentBoxItem = null;
+let currentBoxIndex = -1;
+let isCelebrating = false;
+
+function closeBoxModal() { closeModal('boxOpenModal'); if (upgradeQueue.length) processNextUpgrade(); }
+
+function processNextUpgrade() {
+  if (!upgradeQueue.length) return;
+  const next = upgradeQueue.shift(); currentBoxIndex = next.level;
+  let possible = items.filter(item => item.rare <= 2 && item.price >= 5 && item.price <= 60);
+  if (!possible.length) possible = items.filter(item => item.rare <= 2);
+  currentBoxItem = { ...possible[Math.floor(Math.random() * possible.length)], isBox: true };
+  $('boxLevelText').innerText = `Lv.${next.level}`;
+  $('boxContent').innerText = currentBoxItem.name.charAt(0);
+  $('boxItemName').innerHTML = currentBoxItem.name;
+  let cost = 10 * Math.pow(2, boxReplaceCount);
+  $('replaceCostSpan').innerText = cost + '💰';
+  openModal('boxOpenModal');
+}
+
+function boxConfirm() {
+  playClickSound(); // 添加音效
+  if (!currentBoxItem) return;
+  let exist = storage.find(s => s.name === currentBoxItem.name && s.isBox);
+  if (exist) exist.count++; else storage.push({ ...currentBoxItem, count: 1, isBox: true });
+  if (currentBoxItem.rare >= 2) {
+    showFullscreenEffect(currentBoxItem.rare);
+  }
+  showMessage(`获得 ${currentBoxItem.name}`);
+  currentBoxItem = null; closeBoxModal();
+}
+
+function boxReplace() {
+  playClickSound(); // 添加音效
+  if (!currentBoxItem) return;
+  let cost = 10 * Math.pow(2, boxReplaceCount);
+  if (coin < cost) { showMessage(`💰 金币不足，需要${cost}金币`); return; }
+  coin -= cost; boxReplaceCount++; localStorage.setItem('boxReplaceCount', boxReplaceCount);
+  let possible = items.filter(item => item.rare <= 2 && item.price >= 5 && item.price <= 60);
+  if (!possible.length) possible = items.filter(item => item.rare <= 2);
+  currentBoxItem = { ...possible[Math.floor(Math.random() * possible.length)], isBox: true };
+  $('boxContent').innerText = currentBoxItem.name.charAt(0);
+  $('boxItemName').innerHTML = currentBoxItem.name;
+  let newCost = 10 * Math.pow(2, boxReplaceCount);
+  $('replaceCostSpan').innerText = newCost + '💰';
+  showMessage(`花费${cost}金币，更换为 ${currentBoxItem.name}`);
+}
 
 // 弹窗控制
 function openModal(id) { $(id).style.display='flex'; document.body.classList.add('modal-open'); }
 function closeModal(id) { $(id).style.display='none'; document.body.classList.remove('modal-open'); }
 document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if(e.target===m) closeModal(m.id); }));
 
-// 显示飘屏对话
-function showLog(s) {
-  $('log').innerText = s;
-  let bubble = document.createElement('div');
-  bubble.className = 'float-chat';
-  bubble.innerText = s;
-  $('floatChatContainer').appendChild(bubble);
-  setTimeout(() => bubble.remove(), 4000);
-}
+function showLog(s) { $('log').innerText = s; let bubble = document.createElement('div'); bubble.className = 'float-chat'; bubble.innerText = s; $('floatChatContainer').appendChild(bubble); setTimeout(() => bubble.remove(), 4000); }
 
-// 全屏特效
 function showFullscreenEffect(rare) {
   let effectDiv = $('fullscreenEffect');
   effectDiv.className = 'fullscreen-effect';
   if (rare === 2) effectDiv.classList.add('epic');
   else if (rare === 3) effectDiv.classList.add('legend');
   effectDiv.style.display = 'flex';
-  effectDiv.innerText = rare === 3 ? '✨✨传 说✨✨' : '🌈史诗🌈';
+  effectDiv.innerText = rare === 3 ? '✨✨ 传 说 ✨✨' : '🌈 史 诗 🌈';
+  effectDiv.offsetHeight;
   setTimeout(() => { effectDiv.style.display = 'none'; }, 1200);
 }
 
-// ====================== 陪伴时间 ======================
+function showLevelUpCelebration() {
+  if (isCelebrating) return;
+  isCelebrating = true;
+  playCuteLevelUpSound();
+  const banner = $('levelUpBanner');
+  banner.classList.add('show');
+  const rain = $('confettiRain');
+  rain.style.opacity = '0.8';
+  setTimeout(() => {
+    banner.classList.remove('show');
+    rain.style.opacity = '0';
+    isCelebrating = false;
+    if (upgradeQueue.length > 0) {
+      processNextUpgrade();
+    }
+  }, 1500);
+}
+
+// 陪伴时间
 let startTime = parseInt(localStorage.startTime || Date.now());
 function updatePlayTime() { $('playTime').innerText = '陪伴时间 ' + formatTime(Date.now() - startTime); }
 setInterval(updatePlayTime, 1000);
 
-// ====================== 头像历史 ======================
+// 头像历史与预设头像 (使用真实图片)
 let avatarHistory = JSON.parse(localStorage.avatarHistory || '[]');
-function saveAvatarHistory() {
-  localStorage.avatarHistory = JSON.stringify(avatarHistory);
-  renderAvatarHistory();
-}
-function addAvatarToHistory(url) {
-  avatarHistory = avatarHistory.filter(u => u !== url);
-  avatarHistory.unshift(url);
-  if (avatarHistory.length > 5) avatarHistory.pop();
-  saveAvatarHistory();
-}
-function renderAvatarHistory() {
-  let html = '';
-  avatarHistory.forEach((url, i) => {
-    html += `<div style="position:relative; display:inline-block; margin:4px;"><img src="${url}" class="bg-thumb" onclick="setAvatarFromHistory('${url}')"><button class="mini-btn" style="position:absolute; top:-8px; right:-8px; padding:2px 6px;" onclick="removeAvatarHistory(${i})">✖</button></div>`;
-  });
-  if ($('avatarHistoryList')) $('avatarHistoryList').innerHTML = html || '<div class="empty-msg">暂无历史头像</div>';
-}
-function setAvatarFromHistory(url) {
+function saveAvatarHistory() { localStorage.avatarHistory = JSON.stringify(avatarHistory); renderAvatarHistory(); }
+function addAvatarToHistory(url) { avatarHistory = avatarHistory.filter(u => u !== url); avatarHistory.unshift(url); if (avatarHistory.length>5) avatarHistory.pop(); saveAvatarHistory(); }
+function renderAvatarHistory() { let html=''; avatarHistory.forEach((url,i)=>{ html+=`<div style="position:relative; display:inline-block; margin:4px;"><img src="${url}" class="bg-thumb" onclick="setAvatarFromHistory('${url}')"><button class="mini-btn" style="position:absolute; top:-8px; right:-8px; padding:2px 6px;" onclick="removeAvatarHistory(${i})">✖</button></div>`; }); if($('avatarHistoryList')) $('avatarHistoryList').innerHTML = html || '<div class="empty-msg">暂无历史头像</div>'; }
+function setAvatarFromHistory(url) { $('avatarImg').src = url; localStorage.avatar = url; addAvatarToHistory(url); showLog('头像换好啦 ✨'); closeModal('avatarModal'); }
+function removeAvatarHistory(i) { avatarHistory.splice(i,1); saveAvatarHistory(); }
+function openAvatarManager() { renderAvatarHistory(); openModal('avatarModal'); }
+function chooseAvatar() { $('avatarInput').onchange = e => { let file = e.target.files[0]; if (!file) return; if (file.size>15*1024*1024) { showLog('图片不能超过15MB'); return; } let reader = new FileReader(); reader.onload = ev => { let dataURL = ev.target.result; $('avatarImg').src = dataURL; localStorage.avatar = dataURL; addAvatarToHistory(dataURL); showLog('新头像换上啦 ✨'); closeModal('avatarModal'); }; reader.readAsDataURL(file); }; $('avatarInput').click(); }
+function setAvatarFromPreset(style) {
+  let url = `https://api.dicebear.com/7.x/adventurer/svg?seed=${encodeURIComponent(style)}`;
   $('avatarImg').src = url;
   localStorage.avatar = url;
   addAvatarToHistory(url);
-  showLog('头像换好啦 ✨');
+  showLog(`换上 ${style} 头像 ✨`);
   closeModal('avatarModal');
 }
-function removeAvatarHistory(i) {
-  avatarHistory.splice(i,1);
-  saveAvatarHistory();
-}
-function openAvatarManager() {
-  renderAvatarHistory();
-  openModal('avatarModal');
-}
-function chooseAvatar() {
-  $('avatarInput').onchange = async e => {
-    let file = e.target.files[0];
-    if (!file) return;
-    if (file.size > 15*1024*1024) { showLog('图片不能超过15MB'); return; }
-    let reader = new FileReader();
-    reader.onload = ev => {
-      let dataURL = ev.target.result;
-      $('avatarImg').src = dataURL;
-      localStorage.avatar = dataURL;
-      addAvatarToHistory(dataURL);
-      showLog('新头像换上啦 ✨');
-      closeModal('avatarModal');
-    };
-    reader.readAsDataURL(file);
-  };
-  $('avatarInput').click();
-}
 
-// ====================== 音乐系统 + 条状波纹 + 动态头像光晕 ======================
+// 音乐系统 (优化性能)
 let musicList = JSON.parse(localStorage.musicList || '[]');
 let currentMusicIndex = parseInt(localStorage.currentMusicIndex || '0');
 let bgm = new Audio(); bgm.volume = 0.6; bgm.loop = false;
-let audioCtx, analyser, source, canvasCtx;
+let audioCtxMusic, analyser, source, canvasCtx;
 let rippleDiv = $('avatarRipple');
-
-function initAudioVisualizer() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 128; // 保持足够条数
-    source = audioCtx.createMediaElementSource(bgm);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    canvasCtx = $('waveCanvas').getContext('2d');
-    drawWaveAndRipple();
-  }
-}
+let animationFrame = null;
+function initAudioVisualizer() { if (!audioCtxMusic) { audioCtxMusic = new AudioContext(); analyser = audioCtxMusic.createAnalyser(); analyser.fftSize = 128; source = audioCtxMusic.createMediaElementSource(bgm); source.connect(analyser); analyser.connect(audioCtxMusic.destination); canvasCtx = $('waveCanvas').getContext('2d'); drawWaveAndRipple(); } }
 function drawWaveAndRipple() {
   if (!analyser) return;
   const bufferLength = analyser.frequencyBinCount;
   const dataArray = new Uint8Array(bufferLength);
   const draw = () => {
-    if (!bgm.paused && audioCtx && audioCtx.state === 'running') {
-      analyser.getByteFrequencyData(dataArray);
-    } else {
-      dataArray.fill(0);
-    }
+    if (!bgm.paused && audioCtxMusic && audioCtxMusic.state === 'running') analyser.getByteFrequencyData(dataArray);
+    else dataArray.fill(0);
     const canvas = $('waveCanvas');
     const width = canvas.width;
     const height = canvas.height;
     canvasCtx.clearRect(0, 0, width, height);
-
-    // 绘制条状渐变，上下幅度更大
     const barWidth = (width / bufferLength) * 2.5;
     let x = 0;
-    // 创建渐变
-    const gradient = canvasCtx.createLinearGradient(0, 0, width, 0);
-    gradient.addColorStop(0, '#ff99cc');
-    gradient.addColorStop(0.5, '#a975ff');
-    gradient.addColorStop(1, '#ff99cc');
-
-    for (let i = 0; i < bufferLength; i++) {
-      // 放大幅度：最大值可达到高度90%
-      let barHeight = (dataArray[i] / 255) * height * 0.9;
+    const gradient = canvasCtx.createLinearGradient(0,0,width,0);
+    gradient.addColorStop(0,'#ff99cc');
+    gradient.addColorStop(0.5,'#a975ff');
+    gradient.addColorStop(1,'#ff99cc');
+    for (let i=0; i<bufferLength; i++) {
+      let barHeight = (dataArray[i]/255)*height*0.9;
       canvasCtx.fillStyle = gradient;
-      canvasCtx.fillRect(x, height - barHeight, barWidth - 1, barHeight);
+      canvasCtx.fillRect(x, height-barHeight, barWidth-1, barHeight);
       x += barWidth;
     }
-
-    // 计算平均音量用于头像光晕
-    let avg = 0;
-    for (let i = 0; i < bufferLength; i++) {
-      avg += dataArray[i];
-    }
-    avg = avg / bufferLength;
-
-    if (!bgm.paused && audioCtx && audioCtx.state === 'running') {
-      let scale = 1 + avg / 100;
-      let opacity = 0.5 + avg / 200;
+    let avg=0;
+    for (let i=0; i<bufferLength; i++) avg+=dataArray[i];
+    avg/=bufferLength;
+    if (!bgm.paused && audioCtxMusic && audioCtxMusic.state==='running') {
+      let scale=1+avg/100;
+      let opacity=0.5+avg/200;
       rippleDiv.style.transform = `translate(-50%, -50%) scale(${scale})`;
       rippleDiv.style.opacity = opacity;
     } else {
       rippleDiv.style.transform = `translate(-50%, -50%) scale(1)`;
       rippleDiv.style.opacity = 0.6;
     }
-    requestAnimationFrame(draw);
+    animationFrame = requestAnimationFrame(draw);
   };
-  draw();
+  if (animationFrame) cancelAnimationFrame(animationFrame);
+  animationFrame = requestAnimationFrame(draw);
 }
-
-function updateMusicUI() {
-  let name = '🎵 未播放';
-  if (musicList.length && musicList[currentMusicIndex]) name = '🎵 ' + musicList[currentMusicIndex].name.substring(0,18);
-  $('nowPlaying').innerText = name;
-  $('musicPlayPause').innerHTML = bgm.paused ? '▶️' : '⏸️';
-  renderMusicList();
-}
-function playMusic(i) {
-  if (!musicList.length) return;
-  currentMusicIndex = (i + musicList.length) % musicList.length;
-  localStorage.currentMusicIndex = currentMusicIndex;
-  bgm.src = musicList[currentMusicIndex].url;
-  bgm.load();
-  bgm.play().then(() => {
-    if (!audioCtx) initAudioVisualizer();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-  }).catch(() => showLog('点击页面才能播放音乐'));
-  updateMusicUI();
-}
-function toggleMusic() {
-  if (!musicList.length) { showLog('先去音乐库添加音乐吧'); return; }
-  if (bgm.paused) { if (!bgm.src) playMusic(currentMusicIndex); else bgm.play(); }
-  else bgm.pause();
-  updateMusicUI();
-}
+function updateMusicUI() { let name='🎵 未播放'; if (musicList.length && musicList[currentMusicIndex]) name='🎵 '+musicList[currentMusicIndex].name.substring(0,18); $('nowPlaying').innerText = name; $('musicPlayPause').innerHTML = bgm.paused ? '▶️' : '⏸️'; renderMusicList(); }
+function playMusic(i) { if (!musicList.length) return; currentMusicIndex = (i+musicList.length)%musicList.length; localStorage.currentMusicIndex = currentMusicIndex; bgm.src = musicList[currentMusicIndex].url; bgm.load(); bgm.play().then(()=>{ if (!audioCtxMusic) initAudioVisualizer(); if (audioCtxMusic.state==='suspended') audioCtxMusic.resume(); }).catch(()=>showLog('点击页面才能播放音乐')); updateMusicUI(); }
+function toggleMusic() { if (!musicList.length) { showLog('先去音乐库添加音乐吧'); return; } if (bgm.paused) { if (!bgm.src) playMusic(currentMusicIndex); else bgm.play(); } else bgm.pause(); updateMusicUI(); }
 function prevMusic() { if (musicList.length) playMusic(currentMusicIndex-1); }
 function nextMusic() { if (musicList.length) playMusic(currentMusicIndex+1); }
-bgm.onended = nextMusic;
-bgm.onplay = updateMusicUI; bgm.onpause = updateMusicUI;
-
-function addMusicFiles() {
-  $('musicInput').onchange = e => {
-    Array.from(e.target.files).forEach(f => {
-      if (f.size > 20*1024*1024) { showLog(f.name+' 超过20MB'); return; }
-      let reader = new FileReader();
-      reader.onload = ev => {
-        musicList.push({ name: f.name, url: ev.target.result });
-        localStorage.musicList = JSON.stringify(musicList);
-        updateMusicUI();
-      };
-      reader.readAsDataURL(f);
-    });
-  };
-  $('musicInput').click();
-}
-function removeMusic(i) {
-  if (currentMusicIndex === i) { bgm.pause(); bgm.src = ''; }
-  musicList.splice(i,1);
-  localStorage.musicList = JSON.stringify(musicList);
-  currentMusicIndex = cap(currentMusicIndex, musicList.length-1);
-  localStorage.currentMusicIndex = currentMusicIndex;
-  updateMusicUI();
-}
-function moveMusic(i, d) {
-  let j = i + d;
-  if (j<0 || j>=musicList.length) return;
-  [musicList[i], musicList[j]] = [musicList[j], musicList[i]];
-  if (currentMusicIndex === i) currentMusicIndex = j;
-  else if (currentMusicIndex === j) currentMusicIndex = i;
-  localStorage.musicList = JSON.stringify(musicList);
-  localStorage.currentMusicIndex = currentMusicIndex;
-  updateMusicUI();
-}
-function renderMusicList() {
-  let html = '';
-  if (!musicList.length) html = '<div class="empty-msg">暂无音乐，点击上方添加～</div>';
-  else {
-    musicList.forEach((m, idx) => {
-      let playing = (!bgm.paused && currentMusicIndex === idx);
-      html += `<div class="item-row"><span><b>${playing?'🔊 ':''}${m.name}</b></span><div><button class="mini-btn" onclick="moveMusic(${idx},-1)">⬆️</button><button class="mini-btn" onclick="moveMusic(${idx},1)">⬇️</button><button class="mini-btn" onclick="playMusic(${idx})">${playing?'⏸️':'▶️'}</button><button class="mini-btn" onclick="removeMusic(${idx})">❌</button></div></div>`;
-    });
-  }
-  $('musicList').innerHTML = html;
-}
+bgm.onended = nextMusic; bgm.onplay = updateMusicUI; bgm.onpause = updateMusicUI;
+function addMusicFiles() { $('musicInput').onchange = e => { Array.from(e.target.files).forEach(f => { if (f.size > 20*1024*1024) { showLog(f.name+' 超过20MB'); return; } let reader = new FileReader(); reader.onload = ev => { musicList.push({ name: f.name, url: ev.target.result }); localStorage.musicList = JSON.stringify(musicList); updateMusicUI(); }; reader.readAsDataURL(f); }); }; $('musicInput').click(); }
+function removeMusic(i) { if (currentMusicIndex===i) { bgm.pause(); bgm.src=''; } musicList.splice(i,1); localStorage.musicList = JSON.stringify(musicList); currentMusicIndex = cap(currentMusicIndex, musicList.length-1); localStorage.currentMusicIndex = currentMusicIndex; updateMusicUI(); }
+function moveMusic(i,d) { let j=i+d; if(j<0||j>=musicList.length) return; [musicList[i], musicList[j]]=[musicList[j], musicList[i]]; if (currentMusicIndex===i) currentMusicIndex=j; else if (currentMusicIndex===j) currentMusicIndex=i; localStorage.musicList=JSON.stringify(musicList); localStorage.currentMusicIndex=currentMusicIndex; updateMusicUI(); }
+function renderMusicList() { let html=''; if (!musicList.length) html='<div class="empty-msg">暂无音乐，点击上方添加～</div>'; else { musicList.forEach((m,idx)=>{ let playing=(!bgm.paused && currentMusicIndex===idx); html+=`<div class="item-row"><span><b>${playing?'🔊 ':''}${m.name}</b></span><div><button class="mini-btn" onclick="moveMusic(${idx},-1)">⬆️</button><button class="mini-btn" onclick="moveMusic(${idx},1)">⬇️</button><button class="mini-btn" onclick="playMusic(${idx})">${playing?'⏸️':'▶️'}</button><button class="mini-btn" onclick="removeMusic(${idx})">❌</button></div></div>`; }); } $('musicList').innerHTML=html; }
 function openMusicManager() { updateMusicUI(); openModal('musicModal'); }
 
-// ====================== 核心游戏数据 ======================
-let mood = 50, energy = 50, full = 50, health = 50, love = 50, coin = 20;
-let maxMood = 100, maxEnergy = 100, maxFull = 100, maxHealth = 100, maxLove = 100;
-let level = 1, exp = 0, storage = [];
-let chatCD = 0, restCD = 0, cleanCD = 0;
-let lastDecay = Date.now();
-
+// 核心游戏数据
+let mood=50, energy=50, full=50, health=50, love=50, coin=20;
+let maxMood=100, maxEnergy=100, maxFull=100, maxHealth=100, maxLove=100;
+let level=1, exp=0, storage=[];
+let chatCD=0, restCD=0, cleanCD=0;
+let lastDecay=Date.now();
 function expNeed() { return Math.floor(100 * Math.pow(1.6, level-1)); }
 function updateMax() { maxMood = maxEnergy = maxFull = maxHealth = maxLove = 100 + level*10; }
-
-function updateUI() {
-  $('mood').innerText = mood; $('energy').innerText = energy; $('full').innerText = full;
-  $('health').innerText = health; $('love').innerText = love;
-  $('coinAmount').innerText = coin.toFixed(1);
-  $('levelDisplay').innerText = level;
-  let need = expNeed();
-  let percent = (exp / need) * 100;
-  $('expBar').style.width = percent + '%';
-  $('expText').innerText = `${exp}/${need}`;
-  
-  ['mood','energy','full','health','love'].forEach(a => {
-    let el = $(a+'Progress');
-    if (el) el.style.width = (eval(a) / eval('max'+a.charAt(0).toUpperCase()+a.slice(1)) * 100) + '%';
-  });
-  updateMoodEmoji();
-}
-function updateMoodEmoji() {
-  let emoji = '😊';
-  if (health < 30) emoji = '😷';
-  else if (mood < 30) emoji = '😢';
-  else if (energy < 20) emoji = '😴';
-  else if (mood > 80) emoji = '😆';
-  else if (love > 80) emoji = '🥰';
-  $('moodEmoji').innerText = emoji;
-}
-
-function formatRemainTime(ms) {
-  let totalSeconds = Math.floor(ms / 1000);
-  if (totalSeconds < 60) return totalSeconds + 's';
-  if (totalSeconds < 3600) return Math.floor(totalSeconds / 60) + 'm' + (totalSeconds % 60) + 's';
-  let hours = Math.floor(totalSeconds / 3600);
-  let minutes = Math.floor((totalSeconds % 3600) / 60);
-  return hours + 'h' + (minutes > 0 ? minutes + 'm' : '');
-}
-let cdIntervals = {};
-function startCDTimer(btnId, endTime, originalText) {
-  if (cdIntervals[btnId]) clearInterval(cdIntervals[btnId]);
-  let btn = $(btnId);
-  if (!btn) return;
-  btn.disabled = true;
-  cdIntervals[btnId] = setInterval(() => {
-    let remain = endTime - Date.now();
-    if (remain <= 0) {
-      clearInterval(cdIntervals[btnId]);
-      btn.disabled = false;
-      btn.innerText = originalText;
-    } else {
-      btn.innerText = originalText + ' (' + formatRemainTime(remain) + ')';
-    }
-  }, 1000);
-}
-
-// 聊天多样化
-const chatMessages = [
-  '💬 聊得好开心 +10😊 +5💖',
-  '💬 赫菈讲了个笑话，你笑翻了 +8😊 +3💖',
-  '💬 你们聊起了星星，好浪漫呀 +12😊 +6💖',
-  '💬 赫菈分享了今天的趣事 +9😊 +4💖',
-  '💬 你安慰了赫菈，她好感动 +15😊 +8💖',
-  '💬 你们一起唱了首歌 +10😊 +5💖',
-  '💬 赫菈给你讲了个秘密，关系更亲密了 +7😊 +7💖'
-];
-function chatTalk() {
-  if (chatCD > Date.now()) return;
-  mood = cap(mood+10, maxMood);
-  love = cap(love+5, maxLove);
-  chatCD = Date.now() + 30000;
-  addExp(52);
-  const randomMsg = chatMessages[Math.floor(Math.random() * chatMessages.length)];
-  showLog(randomMsg);
-  updateUI();
-  startCDTimer('chatBtn', chatCD, '💬 聊天');
-}
-function doRest() {
-  if (restCD > Date.now()) return;
-  health = cap(health + Math.floor(maxHealth * 0.3), maxHealth);
-  energy = cap(energy + Math.floor(maxEnergy * 0.5), maxEnergy);
-  restCD = Date.now() + 12 * 3600000;
-  addExp(520);
-  showLog('😴 美美睡了一觉 +❤️30% +⚡50%');
-  updateUI();
-  startCDTimer('restBtn', restCD, '😴 休息');
-}
-function doClean() {
-  if (cleanCD > Date.now()) return;
-  health = cap(health + Math.floor(maxHealth * 0.3), maxHealth);
-  mood = cap(mood + Math.floor(maxMood * 0.1), maxMood);
-  cleanCD = Date.now() + 24 * 3600000;
-  addExp(300);
-  showLog('🧹 洗香香～健康+30% 心情+10%');
-  updateUI();
-  startCDTimer('cleanBtn', cleanCD, '🧹 清洁');
-}
-
+function updateUI() { $('mood').innerText=mood; $('energy').innerText=energy; $('full').innerText=full; $('health').innerText=health; $('love').innerText=love; $('coinAmount').innerText=coin.toFixed(1); $('levelDisplay').innerText=level; let need=expNeed(); $('expBar').style.width=(exp/need*100)+'%'; $('expText').innerText=`${exp}/${need}`; ['mood','energy','full','health','love'].forEach(a=>{ let el=$(a+'Progress'); if (el) el.style.width=(eval(a)/eval('max'+a.charAt(0).toUpperCase()+a.slice(1))*100)+'%'; }); updateMoodEmoji(); }
+function updateMoodEmoji() { let emoji='😊'; if (health<30) emoji='😷'; else if (mood<30) emoji='😢'; else if (energy<20) emoji='😴'; else if (mood>80) emoji='😆'; else if (love>80) emoji='🥰'; $('moodEmoji').innerText=emoji; }
+function formatRemainTime(ms) { let s=Math.floor(ms/1000); if (s<60) return s+'s'; if (s<3600) return Math.floor(s/60)+'m'+(s%60)+'s'; return Math.floor(s/3600)+'h'+Math.floor((s%3600)/60)+'m'; }
+let cdIntervals={};
+function startCDTimer(btnId, endTime, originalText) { if (cdIntervals[btnId]) clearInterval(cdIntervals[btnId]); let btn=$(btnId); if (!btn) return; btn.disabled=true; cdIntervals[btnId]=setInterval(()=>{ let remain=endTime-Date.now(); if (remain<=0) { clearInterval(cdIntervals[btnId]); btn.disabled=false; btn.innerText=originalText; } else btn.innerText=originalText+' ('+formatRemainTime(remain)+')'; },1000); }
+const chatMessages = ['💬 聊得好开心 +10😊 +5💖','💬 赫菈讲了个笑话 +8😊 +3💖','💬 聊起星星 +12😊 +6💖','💬 赫菈分享趣事 +9😊 +4💖','💬 你安慰了赫菈 +15😊 +8💖','💬 一起唱歌 +10😊 +5💖','💬 秘密 +7😊 +7💖'];
+function chatTalk() { if (chatCD > Date.now()) return; mood=cap(mood+10,maxMood); love=cap(love+5,maxLove); chatCD=Date.now()+30000; addExp(52); const randomMsg=chatMessages[Math.floor(Math.random()*chatMessages.length)]; showLog(randomMsg); updateUI(); save(); startCDTimer('chatBtn', chatCD, '💬 聊天'); }
+function doRest() { if (restCD>Date.now()) return; health=cap(health+Math.floor(maxHealth*0.3),maxHealth); energy=cap(energy+Math.floor(maxEnergy*0.5),maxEnergy); restCD=Date.now()+12*3600000; addExp(520); showLog('😴 美美睡了一觉 +❤️30% +⚡50%'); updateUI(); save(); startCDTimer('restBtn', restCD, '😴 休息'); }
+function doClean() { if (cleanCD>Date.now()) return; health=cap(health+Math.floor(maxHealth*0.3),maxHealth); mood=cap(mood+Math.floor(maxMood*0.1),maxMood); cleanCD=Date.now()+24*3600000; addExp(300); showLog('🧹 洗香香～健康+30% 心情+10%'); updateUI(); save(); startCDTimer('cleanBtn', cleanCD, '🧹 清洁'); }
 function addExp(n) {
-  exp += n;
-  while (exp >= expNeed()) {
-    exp -= expNeed();
+  exp+=n;
+  let leveledLevels=[];
+  while (exp>=expNeed()) {
+    exp-=expNeed();
     level++;
-    mood = cap(Math.floor(mood * 1.3), maxMood);
-    energy = cap(Math.floor(energy * 1.3), maxEnergy);
-    full = cap(Math.floor(full * 1.3), maxFull);
-    health = cap(Math.floor(health * 1.3), maxHealth);
-    love = cap(Math.floor(love * 1.3), maxLove);
-    coin += 20;
+    leveledLevels.push(level);
+    mood=cap(Math.floor(mood*1.3),maxMood);
+    energy=cap(Math.floor(energy*1.3),maxEnergy);
+    full=cap(Math.floor(full*1.3),maxFull);
+    health=cap(Math.floor(health*1.3),maxHealth);
+    love=cap(Math.floor(love*1.3),maxLove);
+    coin+=20;
     updateMax();
-    showLog(`✨ 升级到 Lv.${level}！全属性+30%，奖励20💰`);
+  }
+  if (leveledLevels.length > 0) {
+    leveledLevels.forEach(lvl=>upgradeQueue.push({level:lvl}));
+    if (!isCelebrating && $('boxOpenModal').style.display !== 'flex') {
+      showLevelUpCelebration();
+    }
   }
   updateUI();
+  save();
 }
+$('avatarBox').addEventListener('click', ()=>{ playClickSound(); coin=Number((coin+0.1).toFixed(1)); showLog('💰 +0.1 金币'); $('coinView').classList.add('jump'); setTimeout(()=>$('coinView').classList.remove('jump'),500); addExp(1); updateUI(); save(); });
+function decay() { let now=Date.now(); if (now-lastDecay>=60000) { mood=cap(mood-1,maxMood,0); energy=cap(energy-1,maxEnergy,0); full=cap(full-1,maxFull,0); health=cap(health-1,maxHealth,0); love=cap(love-1,maxLove,0); lastDecay=now; updateUI(); save(); } }
+setInterval(decay,1000);
 
-$('avatarBox').addEventListener('click', () => {
-  coin = Number((coin + 0.1).toFixed(1));
-  showLog('💰 +0.1 金币');
-  $('coinView').classList.add('jump');
-  setTimeout(() => $('coinView').classList.remove('jump'), 500);
-  addExp(1);
-  updateUI();
-});
-
-// 属性衰减
-function decay() {
-  let now = Date.now();
-  if (now - lastDecay >= 60000) {
-    mood = cap(mood-1, maxMood,0); energy = cap(energy-1, maxEnergy,0);
-    full = cap(full-1, maxFull,0); health = cap(health-1, maxHealth,0);
-    love = cap(love-1, maxLove,0); lastDecay = now; updateUI();
-  }
-}
-setInterval(decay, 1000);
-
-// ====================== 商店 (完整商品列表) ======================
-const items = [ /* 商品列表与之前相同，此处省略但实际代码中保留完整 */ 
+// ========== 完整商品列表 (完整保留) ==========
+const items = [
+  // 零食 type0
   { name:'🍓草莓牛奶', price:3, type:0, mood:4, full:2, rare:0, levelUnlock:0 },
   { name:'🍟薯片', price:5, type:0, mood:5, full:3, health:-2, rare:0, levelUnlock:0 },
   { name:'🍫巧克力', price:8, type:0, mood:8, full:2, health:-1, rare:0, levelUnlock:0 },
@@ -1431,14 +1706,13 @@ const items = [ /* 商品列表与之前相同，此处省略但实际代码中�
   { name:'🧴身体乳', price:28, type:3, health:11, love:5, rare:1, levelUnlock:3 },
   { name:'🧴防晒霜', price:25, type:3, health:9, rare:1, levelUnlock:2 },
   { name:'🧴面膜', price:22, type:3, health:8, mood:6, rare:1, levelUnlock:1 },
-  { name:'🧴精华液', price:55, type:3, health:18, mood:12, rare:2, levelUnlock:12 },
+  { name:'🧴精华液', price:55, type:3, health:18, mood:12, rare:2, levelUnlock:12 }
 ];
 
 let shopTab = 0;
 function showTab(t) { shopTab = t; renderShop(); }
 function renderShop() {
-  let list = items.filter(i => i.type === shopTab);
-  list.sort((a,b) => a.price - b.price);
+  let list = items.filter(i => i.type === shopTab).sort((a,b) => a.price - b.price);
   let html = '';
   list.forEach((it, idx) => {
     let locked = it.levelUnlock > level;
@@ -1455,90 +1729,83 @@ function buyItem(idx) {
   let exist = storage.find(s => s.name === it.name);
   if (exist) exist.count++;
   else storage.push({ ...it, count: 1 });
-  showLog('购买成功'); updateUI(); renderShop();
+  showMessage(`购买成功！获得 ${it.name}`);
+  updateUI(); save(); renderShop();
 }
 function openShop() { renderShop(); openModal('shopModal'); }
 
-// ====================== 仓库/使用 (增加飞入特效) ======================
+// 仓库 (强化飞入效果)
 function openStorage() {
-  if (!storage.length) { $('storBody').innerHTML = '<div class="empty-msg">仓库空空</div>'; }
+  if (!storage.length) $('storBody').innerHTML='<div class="empty-msg">仓库空空</div>';
   else {
-    let html = '';
-    storage.forEach((it,i) => {
-      let effects = [];
-      if (it.mood) effects.push(`😊+${it.mood}`);
-      if (it.energy) effects.push(`⚡+${it.energy}`);
-      if (it.full) effects.push(`🍚+${it.full}`);
-      if (it.health) effects.push(`❤️+${it.health}`);
-      if (it.love) effects.push(`💖+${it.love}`);
-      let effectStr = effects.join(' ');
-      // 传递事件对象，以便获取点击位置
-      html += `<div class="item-row"><div class="item-info"><span><b>${it.name}</b> x${it.count}</span><span class="item-effects">${effectStr}</span></div><button class="mini-btn" onclick="useItem(${i}, event)">使用</button></div>`;
+    let html='';
+    storage.forEach((it,i)=>{
+      let effects=[]; if (it.mood) effects.push(`😊+${it.mood}`); if (it.energy) effects.push(`⚡+${it.energy}`); if (it.full) effects.push(`🍚+${it.full}`); if (it.health) effects.push(`❤️+${it.health}`); if (it.love) effects.push(`💖+${it.love}`);
+      let effectStr=effects.join(' ');
+      let cost=10*Math.pow(2,boxReplaceCount);
+      let replaceBtn = it.isBox ? `<button class="mini-btn" onclick="replaceBox(${i}, event)">🔄 更换 ${cost}💰</button>` : '';
+      html+=`<div class="item-row"><div class="item-info"><span><b>${it.name}</b> x${it.count}</span><span class="item-effects">${effectStr}</span></div><div class="item-actions">${replaceBtn}<button class="mini-btn" onclick="useItem(${i}, event)">使用</button></div></div>`;
     });
-    $('storBody').innerHTML = html;
+    $('storBody').innerHTML=html;
   }
   openModal('storModal');
 }
+function replaceBox(index, event) {
+  let it = storage[index];
+  if (!it || !it.isBox) return;
+  let cost = 10 * Math.pow(2, boxReplaceCount);
+  if (coin < cost) { showMessage(`💰 金币不足，需要${cost}金币`); return; }
+  coin -= cost; boxReplaceCount++; localStorage.setItem('boxReplaceCount', boxReplaceCount);
+  let possible = items.filter(item => item.rare <= 2 && item.price >= 5 && item.price <= 60);
+  if (!possible.length) possible = items.filter(item => item.rare <= 2);
+  let newItem = possible[Math.floor(Math.random() * possible.length)];
+  it.count--;
+  if (it.count <= 0) storage.splice(index, 1);
+  let exist = storage.find(s => s.name === newItem.name && s.isBox);
+  if (exist) exist.count++; else storage.push({ ...newItem, count: 1, isBox: true });
+  showMessage(`🔄 更换盲盒花费${cost}金币，获得${newItem.name}`);
+  updateUI(); save(); closeModal('storModal'); openStorage();
+}
 function useItem(i, event) {
-  let it = storage[i];
-  if (!it) return;
-
-  // 获取物品表情（取第一个字符作为图标）
-  let icon = it.name.charAt(0); // 例如 🍓
-  // 获取点击位置
-  let x = event.clientX;
-  let y = event.clientY;
-
-  // 创建飞入元素
-  let fly = document.createElement('div');
-  fly.className = 'fly-item';
-  fly.innerText = icon;
-  fly.style.left = x + 'px';
-  fly.style.top = y + 'px';
-  document.body.appendChild(fly);
-
-  // 获取头像位置
-  let avatarRect = $('avatarBox').getBoundingClientRect();
-  let avatarX = avatarRect.left + avatarRect.width / 2;
-  let avatarY = avatarRect.top + avatarRect.height / 2;
-
-  // 计算相对位移
-  let dx = avatarX - x;
-  let dy = avatarY - y;
-  fly.style.setProperty('--fly-x', dx + 'px');
-  fly.style.setProperty('--fly-y', dy + 'px');
-
-  // 动画结束后移除元素
-  setTimeout(() => { fly.remove(); }, 600);
-
-  // 应用物品效果
+  let it = storage[i]; if (!it) return;
+  let icon = [...it.name][0];
+  let x = event.clientX; let y = event.clientY;
+  let fly = document.createElement('div'); fly.className = 'fly-item'; fly.innerText = icon; fly.style.left = x + 'px'; fly.style.top = y + 'px'; document.body.appendChild(fly);
+  let avatarRect = $('avatarContainer').getBoundingClientRect();
+  let avatarX = avatarRect.left + avatarRect.width/2; let avatarY = avatarRect.top + avatarRect.height/2;
+  let dx = avatarX - x; let dy = avatarY - y;
+  fly.style.setProperty('--fly-x', dx + 'px'); fly.style.setProperty('--fly-y', dy + 'px');
+  setTimeout(() => {
+    let boom = document.createElement('div');
+    boom.className = 'impact-boom';
+    boom.style.left = avatarX + 'px';
+    boom.style.top = avatarY + 'px';
+    document.body.appendChild(boom);
+    setTimeout(() => boom.remove(), 400);
+    playImpactSound();
+  }, 700);
+  setTimeout(() => { fly.remove(); }, 800);
   let changes = [];
   if (it.mood) { mood = cap(mood + it.mood, maxMood); changes.push(`😊+${it.mood}`); }
   if (it.energy) { energy = cap(energy + it.energy, maxEnergy); changes.push(`⚡+${it.energy}`); }
   if (it.full) { full = cap(full + it.full, maxFull); changes.push(`🍚+${it.full}`); }
   if (it.health) { health = cap(health + it.health, maxHealth); changes.push(`❤️+${it.health}`); }
   if (it.love) { love = cap(love + it.love, maxLove); changes.push(`💖+${it.love}`); }
-  it.count--;
-  if (it.count <= 0) storage.splice(i,1);
+  it.count--; if (it.count <= 0) storage.splice(i,1);
   showLog(`使用 ${it.name}: ${changes.join(' ')}`);
   if (it.rare >= 2) showFullscreenEffect(it.rare);
-  updateUI();
-  closeModal('storModal');
+  updateUI(); save(); closeModal('storModal');
 }
 function openEat() {
   let list = storage.filter(i => i.type===0 || i.type===2);
-  if (!list.length) { $('eatBody').innerHTML = '<div class="empty-msg">没有可投喂的食物</div>'; }
+  if (!list.length) $('eatBody').innerHTML='<div class="empty-msg">没有可投喂的食物</div>';
   else {
-    let html = '';
-    list.forEach((it, idx) => {
-      let effects = [];
-      if (it.mood) effects.push(`😊+${it.mood}`);
-      if (it.full) effects.push(`🍚+${it.full}`);
-      if (it.health) effects.push(`❤️+${it.health}`);
-      let effectStr = effects.join(' ');
-      html += `<div class="item-row"><div class="item-info"><span><b>${it.name}</b> x${it.count}</span><span class="item-effects">${effectStr}</span></div><button class="mini-btn" onclick="useEat(${idx}, event)">投喂</button></div>`;
+    let html='';
+    list.forEach((it, idx)=>{
+      let effects=[]; if (it.mood) effects.push(`😊+${it.mood}`); if (it.full) effects.push(`🍚+${it.full}`); if (it.health) effects.push(`❤️+${it.health}`);
+      html+=`<div class="item-row"><div class="item-info"><span><b>${it.name}</b> x${it.count}</span><span class="item-effects">${effects.join(' ')}</span></div><button class="mini-btn" onclick="useEat(${idx}, event)">投喂</button></div>`;
     });
-    $('eatBody').innerHTML = html;
+    $('eatBody').innerHTML=html;
   }
   openModal('eatModal');
 }
@@ -1549,17 +1816,14 @@ function useEat(idx, event) {
 }
 function openPlay() {
   let list = storage.filter(i => i.type===1);
-  if (!list.length) { $('playBody').innerHTML = '<div class="empty-msg">没有玩具</div>'; }
+  if (!list.length) $('playBody').innerHTML='<div class="empty-msg">没有玩具</div>';
   else {
-    let html = '';
-    list.forEach((it, idx) => {
-      let effects = [];
-      if (it.mood) effects.push(`😊+${it.mood}`);
-      if (it.love) effects.push(`💖+${it.love}`);
-      let effectStr = effects.join(' ');
-      html += `<div class="item-row"><div class="item-info"><span><b>${it.name}</b> x${it.count}</span><span class="item-effects">${effectStr}</span></div><button class="mini-btn" onclick="usePlay(${idx}, event)">玩耍</button></div>`;
+    let html='';
+    list.forEach((it, idx)=>{
+      let effects=[]; if (it.mood) effects.push(`😊+${it.mood}`); if (it.love) effects.push(`💖+${it.love}`);
+      html+=`<div class="item-row"><div class="item-info"><span><b>${it.name}</b> x${it.count}</span><span class="item-effects">${effects.join(' ')}</span></div><button class="mini-btn" onclick="usePlay(${idx}, event)">玩耍</button></div>`;
     });
-    $('playBody').innerHTML = html;
+    $('playBody').innerHTML=html;
   }
   openModal('playModal');
 }
@@ -1569,13 +1833,13 @@ function usePlay(idx, event) {
   if (realIdx !== -1) { useItem(realIdx, event); closeModal('playModal'); }
 }
 
-// ====================== 签到系统 ======================
+// 签到系统 (添加弹窗)
 let signData = JSON.parse(localStorage.signData || '{"year":0,"month":0,"signed":[],"lucky":-1}');
 function refreshSignData() {
-  let now = new Date(), y = now.getFullYear(), m = now.getMonth();
-  if (signData.year !== y || signData.month !== m) {
+  let now = new Date(), y=now.getFullYear(), m=now.getMonth();
+  if (signData.year!==y || signData.month!==m) {
     let days = new Date(y, m+1, 0).getDate();
-    signData = { year: y, month: m, signed: [], lucky: Math.floor(Math.random() * days) + 1 };
+    signData = { year:y, month:m, signed:[], lucky:Math.floor(Math.random()*days)+1 };
     localStorage.signData = JSON.stringify(signData);
   }
 }
@@ -1584,148 +1848,93 @@ function doSign() {
   if (!canSignToday()) { showLog('今天已经签过啦'); openSignModal(); return; }
   let today = new Date().getDate();
   signData.signed.push(today);
-  let goldReward = 5;
-  let expReward = 20;
-  if (today === signData.lucky) { goldReward *= 2; expReward *= 2; }
-  coin += goldReward;
-  addExp(expReward);
-  let commonItems = items.filter(i => i.rare === 0 && i.price < 10);
+  let goldReward = 5, expReward = 20;
+  if (today === signData.lucky) { goldReward*=2; expReward*=2; }
+  coin += goldReward; addExp(expReward);
+  let commonItems = items.filter(i => i.rare===0 && i.price<10);
   if (commonItems.length) {
-    let rand = commonItems[Math.floor(Math.random() * commonItems.length)];
+    let rand = commonItems[Math.floor(Math.random()*commonItems.length)];
     let exist = storage.find(s => s.name === rand.name);
-    if (exist) exist.count++;
-    else storage.push({ ...rand, count: 1 });
-    showLog(`签到 +${goldReward}💰, +${expReward}经验, 获得${rand.name}`);
-  } else {
-    showLog(`签到 +${goldReward}💰, +${expReward}经验`);
-  }
+    if (exist) exist.count++; else storage.push({ ...rand, count:1 });
+    showMessage(`签到成功！获得 ${goldReward}💰, ${expReward}经验, 以及 ${rand.name}`);
+  } else showMessage(`签到成功！获得 ${goldReward}💰, ${expReward}经验`);
   let daysInMonth = new Date(signData.year, signData.month+1, 0).getDate();
   if (signData.signed.length === daysInMonth) {
-    coin += 50;
-    let epicItem = items.filter(i => i.rare === 2)[0];
-    if (epicItem) {
-      let exist = storage.find(s => s.name === epicItem.name);
-      if (exist) exist.count++; else storage.push({ ...epicItem, count: 1 });
-      showLog('🎉 满签奖励 +50💰 + 史诗物品！');
-    }
+    coin += 50; let epicItem = items.filter(i => i.rare===2)[0];
+    if (epicItem) { let exist = storage.find(s => s.name === epicItem.name); if (exist) exist.count++; else storage.push({ ...epicItem, count:1 }); showMessage('🎉 满签奖励 +50💰 + 史诗物品！'); }
   }
   localStorage.signData = JSON.stringify(signData);
-  updateUI();
-  openSignModal();
+  updateUI(); save(); openSignModal();
 }
 function openSignModal() {
   refreshSignData();
-  let now = new Date(), year = signData.year, month = signData.month+1;
+  let now = new Date(), year=signData.year, month=signData.month+1;
   let days = new Date(signData.year, signData.month+1, 0).getDate();
-  let firstDay = new Date(signData.year, signData.month, 1).getDay(); 
-  let html = `<div style="text-align:center; font-size:18px; margin-bottom:6px;">${year}年${month}月</div>
-  <div style="text-align:center; margin:8px 0; background:#ffe9f4; border-radius:40px; padding:8px; font-size:14px;">
-    <div>✨今日签到奖励✨</div>
-    <div>金币5, 经验20, 随机普通商品</div>
-    ${signData.lucky===now.getDate()?'<div>🎯今日幸运日双倍！</div>':''}
-  </div>
-  <div class="calendar">` + '日一二三四五六'.split('').map(d=>`<div style="font-weight:bold; font-size:14px;">${d}</div>`).join('');
-  for (let i=0; i<firstDay; i++) html += '<div></div>';
+  let firstDay = new Date(signData.year, signData.month, 1).getDay();
+  let html = `<div style="text-align:center; font-size:18px; margin-bottom:6px;">${year}年${month}月</div><div style="text-align:center; margin:8px 0; background:#ffe9f4; border-radius:40px; padding:8px; font-size:14px;"><div>✨今日签到奖励✨</div><div>金币5, 经验20, 随机普通商品</div>${signData.lucky===now.getDate()?'<div>🎯今日幸运日双倍！</div>':''}</div><div class="calendar">`+'日一二三四五六'.split('').map(d=>`<div style="font-weight:bold; font-size:14px;">${d}</div>`).join('');
+  for (let i=0; i<firstDay; i++) html+='<div></div>';
   for (let d=1; d<=days; d++) {
     let cls = 'calendar-day';
-    if (signData.signed.includes(d)) cls += ' signed';
-    if (d === signData.lucky) cls += ' lucky';
-    if (d === now.getDate()) cls += ' today';
-    html += `<div class="${cls}" onclick="if(${!signData.signed.includes(d)} && ${d}===${now.getDate()}) doSign()">${d}</div>`;
+    if (signData.signed.includes(d)) cls+=' signed';
+    if (d===signData.lucky) cls+=' lucky';
+    if (d===now.getDate()) cls+=' today';
+    html+=`<div class="${cls}" onclick="if(${!signData.signed.includes(d)} && ${d}===${now.getDate()}) doSign()">${d}</div>`;
   }
-  html += '</div><div style="margin-top:12px; text-align:center"><button class="mini-btn" onclick="doSign()">✍️ 今日签到</button></div>';
+  html+='</div><div style="margin-top:12px; text-align:center"><button class="mini-btn" onclick="doSign()">✍️ 今日签到</button></div>';
   $('signBody').innerHTML = html;
   openModal('signModal');
 }
 
-// ====================== 色系设置 ======================
+// 色系设置
 function setColorTheme(main, second, themeName) {
   document.documentElement.style.setProperty('--main-color', main);
   document.documentElement.style.setProperty('--second-color', second);
-  document.documentElement.style.setProperty('--main-light', main + 'dd');
+  document.documentElement.style.setProperty('--main-light', main+'dd');
   document.documentElement.style.setProperty('--main-dark', main);
   let bodyBg, cardBg;
-  if (themeName === '浪漫粉') {
-    bodyBg = 'linear-gradient(165deg, #ffe9f4, #f0e6ff)';
-    cardBg = 'rgba(255, 250, 250, 0.95)';
-  } else if (themeName === '梦幻紫') {
-    bodyBg = 'linear-gradient(165deg, #e6d5ff, #d9b0ff)';
-    cardBg = 'rgba(245, 230, 255, 0.95)';
-  } else if (themeName === '清新绿') {
-    bodyBg = 'linear-gradient(165deg, #e0ffe0, #c0e8d5)';
-    cardBg = 'rgba(240, 255, 240, 0.95)';
-  } else if (themeName === '暖阳橙') {
-    bodyBg = 'linear-gradient(165deg, #ffe0b5, #ffd2a0)';
-    cardBg = 'rgba(255, 245, 235, 0.95)';
-  } else if (themeName === '深邃黑') {
-    bodyBg = 'linear-gradient(165deg, #2c3e50, #34495e)';
-    cardBg = 'rgba(30, 30, 40, 0.95)';
-  } else if (themeName === '海洋蓝') {
-    bodyBg = 'linear-gradient(165deg, #3498db, #5dade2)';
-    cardBg = 'rgba(235, 245, 255, 0.95)';
-  } else {
-    bodyBg = 'linear-gradient(165deg, #ffe9f4, #f0e6ff)';
-    cardBg = 'rgba(255, 250, 250, 0.95)';
-  }
+  if (themeName === '浪漫粉') { bodyBg='linear-gradient(165deg, #ffe9f4, #f0e6ff)'; cardBg='rgba(255, 250, 250, 0.95)'; }
+  else if (themeName === '梦幻紫') { bodyBg='linear-gradient(165deg, #e6d5ff, #d9b0ff)'; cardBg='rgba(245, 230, 255, 0.95)'; }
+  else if (themeName === '清新绿') { bodyBg='linear-gradient(165deg, #e0ffe0, #c0e8d5)'; cardBg='rgba(240, 255, 240, 0.95)'; }
+  else if (themeName === '暖阳橙') { bodyBg='linear-gradient(165deg, #ffe0b5, #ffd2a0)'; cardBg='rgba(255, 245, 235, 0.95)'; }
+  else if (themeName === '深邃黑') { bodyBg='linear-gradient(165deg, #2c3e50, #34495e)'; cardBg='rgba(30, 30, 40, 0.95)'; }
+  else if (themeName === '海洋蓝') { bodyBg='linear-gradient(165deg, #3498db, #5dade2)'; cardBg='rgba(235, 245, 255, 0.95)'; }
+  else { bodyBg='linear-gradient(165deg, #ffe9f4, #f0e6ff)'; cardBg='rgba(255, 250, 250, 0.95)'; }
   document.body.style.background = bodyBg;
   document.querySelector('.game-box').style.background = cardBg;
-  localStorage.colorMain = main;
-  localStorage.colorSecond = second;
-  localStorage.colorTheme = themeName;
+  localStorage.colorMain = main; localStorage.colorSecond = second; localStorage.colorTheme = themeName;
   closeModal('colorModal');
 }
 function openColorModal() { openModal('colorModal'); }
 
-// ====================== 主题切换 ======================
-function toggleTheme() {
-  document.body.classList.toggle('night');
-  localStorage.theme = document.body.classList.contains('night') ? 'night' : 'day';
-}
+// 主题切换
+function toggleTheme() { document.body.classList.toggle('night'); localStorage.theme = document.body.classList.contains('night')?'night':'day'; }
 
-// ====================== 存档/读档 ======================
-function save() {
-  localStorage.data = JSON.stringify({ mood, energy, full, health, love, coin, level, exp, storage, chatCD, restCD, cleanCD, lastDecay });
-  localStorage.startTime = startTime;
-}
+// 存档/读档
+function save() { localStorage.data = JSON.stringify({ mood, energy, full, health, love, coin, level, exp, storage, boxReplaceCount, chatCD, restCD, cleanCD, lastDecay, savings, savingHistory, wheelData }); localStorage.startTime = startTime; }
 function load() {
   let d = JSON.parse(localStorage.data || '{}');
   mood = d.mood ?? 50; energy = d.energy ?? 50; full = d.full ?? 50; health = d.health ?? 50; love = d.love ?? 50;
   coin = d.coin ?? 20; level = d.level ?? 1; exp = d.exp ?? 0; storage = d.storage ?? [];
-  chatCD = d.chatCD ?? 0; restCD = d.restCD ?? 0; cleanCD = d.cleanCD ?? 0; lastDecay = d.lastDecay ?? Date.now();
+  boxReplaceCount = d.boxReplaceCount ?? 0; chatCD = d.chatCD ?? 0; restCD = d.restCD ?? 0; cleanCD = d.cleanCD ?? 0; lastDecay = d.lastDecay ?? Date.now();
+  savings = d.savings ?? []; savingHistory = d.savingHistory ?? []; wheelData = d.wheelData ?? {lastSpinDate:'',spinsLeft:1,luckyNumber:7,luckyColor:'#ff85c0',luckyStar:5,quote:''};
   if (localStorage.avatar) $('avatarImg').src = localStorage.avatar;
   if (localStorage.theme === 'night') document.body.classList.add('night');
   if (localStorage.colorMain) {
     document.documentElement.style.setProperty('--main-color', localStorage.colorMain);
     document.documentElement.style.setProperty('--second-color', localStorage.colorSecond || '#a975ff');
     document.documentElement.style.setProperty('--main-light', localStorage.colorMain + 'dd');
-    if (localStorage.colorTheme) {
-      let theme = localStorage.colorTheme;
-      if (theme === '浪漫粉') document.body.style.background = 'linear-gradient(165deg, #ffe9f4, #f0e6ff)';
-      else if (theme === '梦幻紫') document.body.style.background = 'linear-gradient(165deg, #e6d5ff, #d9b0ff)';
-      else if (theme === '清新绿') document.body.style.background = 'linear-gradient(165deg, #e0ffe0, #c0e8d5)';
-      else if (theme === '暖阳橙') document.body.style.background = 'linear-gradient(165deg, #ffe0b5, #ffd2a0)';
-      else if (theme === '深邃黑') document.body.style.background = 'linear-gradient(165deg, #2c3e50, #34495e)';
-      else if (theme === '海洋蓝') document.body.style.background = 'linear-gradient(165deg, #3498db, #5dade2)';
-      document.querySelector('.game-box').style.background = 'rgba(255, 250, 250, 0.95)';
-    }
   }
+  currentEffect = localStorage.getItem('currentEffect') || '';
+  if (currentEffect) document.body.classList.add(`effect-${currentEffect}`);
   avatarHistory = JSON.parse(localStorage.avatarHistory || '[]');
-  updateMax();
-  updateUI();
-  $('chatBtn').innerText = '💬 聊天';
-  $('restBtn').innerText = '😴 休息';
-  $('cleanBtn').innerText = '🧹 清洁';
+  saveHistory = JSON.parse(localStorage.getItem('saveHistory') || '[]');
+  updateMax(); updateUI(); updateSavingCount();
   if (chatCD > Date.now()) startCDTimer('chatBtn', chatCD, '💬 聊天');
   if (restCD > Date.now()) startCDTimer('restBtn', restCD, '😴 休息');
   if (cleanCD > Date.now()) startCDTimer('cleanBtn', cleanCD, '🧹 清洁');
   showLog('✨ 赫菈醒来啦 ✨');
 }
-
-window.onload = () => {
-  load();
-  setInterval(updatePlayTime, 1000);
-  updateMusicUI();
-};
+window.onload = () => { load(); setInterval(updatePlayTime,1000); updateMusicUI(); };
 </script>
 </body>
 </html>
